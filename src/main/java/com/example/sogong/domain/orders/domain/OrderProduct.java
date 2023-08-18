@@ -1,36 +1,35 @@
-package com.example.sogong.domain.cart_product.domain;
+package com.example.sogong.domain.orders.domain;
 
-import com.example.sogong.domain.cart.domain.Cart;
-import com.example.sogong.domain.common.BaseTimeEntity;
 import com.example.sogong.domain.product.domain.Product;
 import jakarta.persistence.*;
 import lombok.*;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Setter
 @Getter
+@Setter
+@ToString(exclude = {"order", "product"})
 @Entity
-public class CartProduct extends BaseTimeEntity {
+public class OrderProduct {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private int quantity;
+    private int price; // 구매한 가격
+    private int quantity; // 구매한 수량
 
     @JoinColumn(name = "PRODUCT_ID", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private Product product;
 
-    @JoinColumn(name = "CART_ID", nullable = false)
+    @JoinColumn(name = "ORDER_ID", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
-    private Cart cart;
-
+    private Order order;
 
     @Builder
-    private CartProduct(int quantity, Product product, Cart cart) {
+    private OrderProduct(int price, int quantity, Product product) {
+        this.price = price;
         this.quantity = quantity;
         this.product = product;
-        this.cart = cart;
     }
 
 }

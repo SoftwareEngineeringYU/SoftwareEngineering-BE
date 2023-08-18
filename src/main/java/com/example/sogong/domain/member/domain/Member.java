@@ -1,28 +1,49 @@
 package com.example.sogong.domain.member.domain;
 
-import com.example.sogong.global.common.BaseTimeEntity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.example.sogong.domain.common.BaseTimeEntity;
+import jakarta.persistence.*;
+import lombok.*;
 
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Setter
+@Getter
+@Entity
 public class Member extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false)
     private String nickname;
 
+    @Column(unique = true, nullable = false)
     private String email;
 
-    private String[] roles;
+    private Instant lastLoginAt;
 
-    private Instant created_at;
 
-    private Instant updated_at;
+    @Enumerated(EnumType.STRING)
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(
+            name = "member_role",
+            joinColumns = @JoinColumn(name = "MEMBER_ID")
+    )
+    @OrderColumn
+    private Set<MemberRole> roles = new HashSet<>();
 
-    private Instant last_login_at;
+
+    @Builder
+    private Member(String password, String nickname, String email, Set<MemberRole> roles) {
+        this.password = password;
+        this.email = email;
+        this.nickname = nickname;
+        this.roles = roles;
+    }
 }

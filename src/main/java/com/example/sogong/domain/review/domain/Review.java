@@ -1,26 +1,55 @@
 package com.example.sogong.domain.review.domain;
 
-import com.example.sogong.global.common.BaseTimeEntity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.example.sogong.domain.common.BaseTimeEntity;
+import com.example.sogong.domain.image.domain.ImageData;
+import com.example.sogong.domain.member.domain.Member;
+import com.example.sogong.domain.product.domain.Product;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import lombok.*;
 
-import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Setter
+@Getter
+@Entity
 public class Review extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long product_id;
-
-    private Long writer_id;
+    @NotBlank(message = "리뷰는 10자 이상이어야 합니다")
+    @Size(min = 10, max = 500, message = "리뷰는 10 ~ 500자 사이 이내여야 합니다")
+    private String body;
 
     private Integer rating;
 
-    private String body;
+    @JoinColumn(name = "WRITER_ID", nullable = false, updatable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Member writer;
 
-    private Instant created_at;
+    @JoinColumn(name = "PRODUCT_ID", nullable = false, updatable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Product product;
 
-    private Instant updated_at;
+    @Builder.Default
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(
+            name = "review_image",
+            joinColumns = @JoinColumn(name = "REVIEW_ID")
+    )
+    @OrderColumn
+    private List<ImageData> images = new ArrayList<>();
+
+    @Builder
+    private Review(String body, Integer rating, Member writer, Product product) {
+        this.body = body;
+        this.rating = rating;
+        this.writer = writer;
+        this.product = product;
+    }
+
 }

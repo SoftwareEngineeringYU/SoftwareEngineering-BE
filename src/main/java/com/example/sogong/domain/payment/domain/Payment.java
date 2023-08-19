@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Setter
 @Getter
 @Entity
 public class Payment {

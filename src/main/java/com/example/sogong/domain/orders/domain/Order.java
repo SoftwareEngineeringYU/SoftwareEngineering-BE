@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Setter
 @Getter
 @Entity(name = "orders")
 public class Order extends BaseTimeEntity {

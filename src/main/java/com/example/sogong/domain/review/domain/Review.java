@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Setter
 @Getter
 @Entity
 public class Review extends BaseTimeEntity {

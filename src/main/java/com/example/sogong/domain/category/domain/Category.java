@@ -9,7 +9,6 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Setter
 @Getter
 @Entity
 public class Category extends BaseTimeEntity {

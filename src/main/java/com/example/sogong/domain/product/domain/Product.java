@@ -8,13 +8,14 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Setter
 @Getter
 @Entity
 public class Product extends BaseTimeEntity {
@@ -43,23 +44,23 @@ public class Product extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private Member seller;
 
-    @Builder.Default
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(
             name = "product_image",
             joinColumns = @JoinColumn(name = "PRODUCT_ID")
     )
     @OrderColumn
-    private List<ImageData> images = new ArrayList<>();
+    private List<ImageData> images;
 
     @Builder
-    private Product(String name, Integer price, String description, Integer stockAmount, Category category, Member seller) {
+    private Product(String name, Integer price, String description, Integer stockAmount, Category category, Member seller, List<ImageData> images) {
         this.name = name;
         this.price = price;
         this.description = description;
         this.stockAmount = stockAmount;
         this.category = category;
         this.seller = seller;
+        this.images = images;
     }
 
 }

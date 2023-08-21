@@ -9,7 +9,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Setter
 @Getter
 @Entity
 public class Member extends BaseTimeEntity {
@@ -35,7 +34,6 @@ public class Member extends BaseTimeEntity {
             name = "member_role",
             joinColumns = @JoinColumn(name = "MEMBER_ID")
     )
-    @OrderColumn
     private Set<MemberRole> roles = new HashSet<>();
 
 
@@ -46,4 +44,5 @@ public class Member extends BaseTimeEntity {
         this.nickname = nickname;
         this.roles = roles;
     }
+
 }

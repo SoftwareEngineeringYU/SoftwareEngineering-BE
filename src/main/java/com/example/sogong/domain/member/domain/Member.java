@@ -1,5 +1,6 @@
 package com.example.sogong.domain.member.domain;
 
+import com.example.sogong.domain.address.domain.Address;
 import com.example.sogong.domain.common.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -9,7 +10,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Setter
 @Getter
 @Entity
 public class Member extends BaseTimeEntity {
@@ -23,11 +23,13 @@ public class Member extends BaseTimeEntity {
     @Column(nullable = false)
     private String nickname;
 
+    @Embedded
+    private Address address;
+
     @Column(unique = true, nullable = false)
     private String email;
 
     private Instant lastLoginAt;
-
 
     @Enumerated(EnumType.STRING)
     @ElementCollection(fetch = FetchType.LAZY)
@@ -40,10 +42,11 @@ public class Member extends BaseTimeEntity {
 
 
     @Builder
-    private Member(String password, String nickname, String email, Set<MemberRole> roles) {
+    private Member(String password, String nickname, String email, Address address, Set<MemberRole> roles) {
         this.password = password;
         this.email = email;
         this.nickname = nickname;
+        this.address = address;
         this.roles = roles;
     }
 }

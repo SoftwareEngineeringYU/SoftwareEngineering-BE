@@ -6,7 +6,6 @@ import lombok.Getter;
 @Embeddable
 @Getter
 public class ImageData {
-
     String thumbnailImageKey;
     String imageKey;
 }

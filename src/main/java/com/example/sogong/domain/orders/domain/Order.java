@@ -1,6 +1,6 @@
 package com.example.sogong.domain.orders.domain;
 
-import com.example.sogong.domain.address.domain.AddressData;
+import com.example.sogong.domain.address.domain.Address;
 import com.example.sogong.domain.common.BaseTimeEntity;
 import com.example.sogong.domain.member.domain.Member;
 import jakarta.persistence.*;
@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Setter
 @Getter
 @Entity(name = "orders")
 public class Order extends BaseTimeEntity {
@@ -31,7 +30,7 @@ public class Order extends BaseTimeEntity {
     private CsStatus csStatus; // CS 상태
 
     @Embedded
-    private AddressData shippingAddress; // 배송지
+    private Address shippingAddress; // 배송지
 
     @JoinColumn(name = "BUYER_ID", nullable = false, updatable = false)
     @ManyToOne(fetch = FetchType.LAZY)
@@ -43,7 +42,7 @@ public class Order extends BaseTimeEntity {
 
 
     @Builder
-    private Order(Instant purchasedAt, OrderStatus orderStatus, CsStatus csStatus, AddressData shippingAddress, Member buyer) {
+    private Order(Instant purchasedAt, OrderStatus orderStatus, CsStatus csStatus, Address shippingAddress, Member buyer) {
         this.purchasedAt = purchasedAt;
         this.orderStatus = orderStatus;
         this.csStatus = csStatus;

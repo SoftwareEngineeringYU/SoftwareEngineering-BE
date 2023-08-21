@@ -7,7 +7,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Setter
 @Getter
 @Entity
 public class CartProduct extends BaseTimeEntity {

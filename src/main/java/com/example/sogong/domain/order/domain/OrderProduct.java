@@ -6,7 +6,6 @@ import lombok.*;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@Setter
 @ToString(exclude = {"order", "product"})
 @Entity
 public class OrderProduct {

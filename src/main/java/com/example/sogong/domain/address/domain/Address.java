@@ -9,16 +9,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Embeddable
-public class AddressData {
+public class Address {
     @Size(min = 1, max = 10, message = "주소는 1 ~ 10자 이내여야 합니다")
-    private String address;
+    private String city;
 
     @Size(min = 1, max = 10, message = "우편번호는 1 ~ 10자 이내여야 합니다")
     private String zipcode;
 
-    public AddressData(String address, String zipcode) {
-        this.address = address;
+    public Address(String city, String zipcode) {
+        this.city = city;
         this.zipcode = zipcode;
     }
-
 }

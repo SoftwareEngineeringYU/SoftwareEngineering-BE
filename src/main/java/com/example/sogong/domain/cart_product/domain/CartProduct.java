@@ -14,7 +14,7 @@ public class CartProduct extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private int quantity;
+    private Integer quantity;
 
     @JoinColumn(name = "PRODUCT_ID", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
@@ -26,7 +26,7 @@ public class CartProduct extends BaseTimeEntity {
 
 
     @Builder
-    private CartProduct(int quantity, Product product, Cart cart) {
+    private CartProduct(Integer quantity, Product product, Cart cart) {
         this.quantity = quantity;
         this.product = product;
         this.cart = cart;

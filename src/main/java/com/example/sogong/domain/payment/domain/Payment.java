@@ -1,6 +1,6 @@
 package com.example.sogong.domain.payment.domain;
 
-import com.example.sogong.domain.orders.domain.Order;
+import com.example.sogong.domain.order.domain.Order;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;

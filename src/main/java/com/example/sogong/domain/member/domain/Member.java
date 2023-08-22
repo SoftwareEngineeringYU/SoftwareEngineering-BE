@@ -37,7 +37,6 @@ public class Member extends BaseTimeEntity {
             name = "member_role",
             joinColumns = @JoinColumn(name = "MEMBER_ID")
     )
-    @OrderColumn
     private Set<MemberRole> roles = new HashSet<>();
 
 
@@ -49,4 +48,5 @@ public class Member extends BaseTimeEntity {
         this.address = address;
         this.roles = roles;
     }
+
 }

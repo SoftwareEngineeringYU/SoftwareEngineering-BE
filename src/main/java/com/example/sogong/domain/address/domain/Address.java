@@ -11,13 +11,14 @@ import lombok.NoArgsConstructor;
 @Embeddable
 public class Address {
     @Size(min = 1, max = 10, message = "주소는 1 ~ 10자 이내여야 합니다")
-    private String city;
+    private String address;
 
     @Size(min = 1, max = 10, message = "우편번호는 1 ~ 10자 이내여야 합니다")
     private String zipcode;
 
-    public Address(String city, String zipcode) {
-        this.city = city;
+    public Address(String address, String zipcode) {
+        this.address = address;
         this.zipcode = zipcode;
     }
+
 }

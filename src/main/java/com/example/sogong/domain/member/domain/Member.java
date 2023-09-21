@@ -31,7 +31,7 @@ public class Member extends BaseTimeEntity {
 
     private Instant lastLoginAt;
 
-    @Enumerated(EnumType.STRING)
+    @Convert(converter = MemberRoleConverter.class)
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(
             name = "member_role",
@@ -39,7 +39,6 @@ public class Member extends BaseTimeEntity {
     )
     @OrderColumn
     private Set<MemberRole> roles = new HashSet<>();
-
 
     @Builder
     private Member(String password, String nickname, String email, Address address, Set<MemberRole> roles) {

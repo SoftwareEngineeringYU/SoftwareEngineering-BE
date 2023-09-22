@@ -31,13 +31,13 @@ public class Member extends BaseTimeEntity {
 
     private Instant lastLoginAt;
 
-    @Convert(converter = MemberRoleConverter.class)
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(
             name = "member_role",
             joinColumns = @JoinColumn(name = "MEMBER_ID")
     )
     @OrderColumn
+    @Convert(converter = MemberRoleConverter.class)
     private Set<MemberRole> roles = new HashSet<>();
 
     @Builder

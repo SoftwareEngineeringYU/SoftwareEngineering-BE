@@ -1,10 +1,17 @@
 package com.example.sogong.global.auth;
 
-public class AuthConstants {
-    public static final String AUTH_HEADER = "Authorization";
-    public static final String TOKEN_PREFIX = "Bearer ";
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
-    public static final String SECURITY_REQUIREMENT = TOKEN_PREFIX + AUTH_HEADER;
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+@Getter
+public enum AuthConstants {
 
-    private AuthConstants() {}
+    AUTH_HEADER("Authorization"),
+    TOKEN_PREFIX("Bearer "),
+
+    ;
+
+    private final String value;
 }

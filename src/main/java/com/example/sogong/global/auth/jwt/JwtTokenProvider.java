@@ -1,11 +1,11 @@
 package com.example.sogong.global.auth.jwt;
 
 import com.example.sogong.global.auth.AuthConstants;
+import com.example.sogong.global.exception.ErrorCodeUtils;
 import com.example.sogong.global.exception.auth.AuthErrorCode;
 import com.example.sogong.global.exception.auth.AuthErrorException;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
-import io.jsonwebtoken.security.SecurityException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,7 +36,7 @@ public final class JwtTokenProvider {
 
 
     public static String parseJwtFromRequest(HttpServletRequest request) {
-        final String headerAuth = request.getHeader(AuthConstants.AUTH_HEADER);
+        final String headerAuth = request.getHeader(AuthConstants.AUTH_HEADER.getValue());
         return parseJwt(headerAuth);
     }
 
@@ -48,8 +48,8 @@ public final class JwtTokenProvider {
      */
     private static String parseJwt(final String headerAuth) {
 
-        if (StringUtils.hasText(headerAuth) && headerAuth.startsWith(AuthConstants.TOKEN_PREFIX)) {
-            return headerAuth.substring(AuthConstants.TOKEN_PREFIX.length());
+        if (StringUtils.hasText(headerAuth) && headerAuth.startsWith(AuthConstants.TOKEN_PREFIX.getValue())) {
+            return headerAuth.substring(AuthConstants.TOKEN_PREFIX.getValue().length()).trim();
         } else {
             return null;
         }
@@ -89,22 +89,15 @@ public final class JwtTokenProvider {
         return verifyAndGetClaims(accessToken).getExpiration();
     }
 
-
-    private Claims verifyAndGetClaims(final String accessToken) {
+    public Claims verifyAndGetClaims(final String accessToken) {
         try {
             return getClaimsFormToken(accessToken, tokenSecretKey);
-        } catch (ExpiredJwtException ex) {
-            log.warn("JWT Expired. Error: {}", ex.toString());
-            throw new AuthErrorException(AuthErrorCode.EXPIRED_ACCESS_TOKEN, ex.toString());
-        } catch (MalformedJwtException ex) {
-            log.error("JWT Malformed! Error: {}", ex.toString());
-            throw new AuthErrorException(AuthErrorCode.MALFORMED_ACCESS_TOKEN, ex.toString());
-        } catch (SecurityException ex) {
-            log.error("JWT Tampered! Error: {}", ex.toString());
-            throw new AuthErrorException(AuthErrorCode.TAMPERED_ACCESS_TOKEN, ex.toString());
-        } catch (UnsupportedJwtException ex) {
-            log.warn("Unsupported JWT Error: {}", ex.toString());
-            throw new AuthErrorException(AuthErrorCode.WRONG_JWT_TOKEN, ex.toString());
+        } catch (JwtException jwtException) {
+            final var errorCode = ErrorCodeUtils.mappingAuthErrorCodeOrDefault(jwtException, AuthErrorCode.FAILED_AUTHENTICATION);
+
+            log.warn("Error code : {}, Error - {},  {}",
+                    errorCode, jwtException.getClass(), jwtException.getMessage());
+            throw new AuthErrorException(errorCode, jwtException.toString());
         }
     }
 

@@ -1,6 +1,5 @@
 package com.example.sogong.global.auth.refresh_token;
 
-import com.example.sogong.global.auth.forbidden_token.ForbiddenTokenService;
 import com.example.sogong.global.exception.auth.AuthErrorCode;
 import com.example.sogong.global.exception.auth.AuthErrorException;
 import lombok.extern.slf4j.Slf4j;
@@ -10,23 +9,20 @@ import org.springframework.stereotype.Service;
 import java.time.Duration;
 import java.util.UUID;
 
-
 @Slf4j
 @Service
 public class RefreshTokenService {
 
     private final RefreshTokenRepository refreshTokenRepository;
     private final Duration refreshTokenExpiration;
-    private final ForbiddenTokenService forbiddenTokenService;
+
 
     public RefreshTokenService(
             @Value("${app.token.refresh.expiration}") Duration refreshTokenExpiration,
-            RefreshTokenRepository refreshTokenRepository,
-            ForbiddenTokenService forbiddenTokenService
+            RefreshTokenRepository refreshTokenRepository
     ) {
         this.refreshTokenExpiration = refreshTokenExpiration;
         this.refreshTokenRepository = refreshTokenRepository;
-        this.forbiddenTokenService = forbiddenTokenService;
     }
 
 
@@ -36,8 +32,8 @@ public class RefreshTokenService {
      * @param id - 리프래시 토큰 구분 대상
      * @return - 리프래시 토큰
      */
-    public String issueRefreshToken(long id) {
-        final var refreshToken = RefreshToken.builder()
+    public String issueRefreshToken(final long id) {
+        final RefreshToken refreshToken = RefreshToken.builder()
                 .token(makeRefreshToken())
                 .memberId(id)
                 .timeToLive(getExpiryTime())
@@ -55,18 +51,21 @@ public class RefreshTokenService {
      * @param requestRefreshToken - 기존의 리프래시 토큰
      * @return - 새로운 리프래시 토큰
      */
-    public RefreshToken refresh(String requestRefreshToken) {
-        final var refreshToken = findOrThrow(requestRefreshToken);
+    public RefreshToken refresh(final String requestRefreshToken) {
+        final RefreshToken refreshToken = findOrThrow(requestRefreshToken);
         refreshToken.refresh(makeRefreshToken(), getExpiryTime());
         return refreshToken;
     }
 
-    public void logout(final String accessToken, long currentMemberId, String requestRefreshToken) {
+    /**
+     * 로그아웃하고 기존의 refresh 토큰은 폐기함(재사용 불가)
+     *
+     * @param currentMemberId   - 현재 인증된 멤버 ID
+     * @param savedRefreshToken - 기존의 저장된 토큰
+     */
+    public void logout(final long currentMemberId, final String savedRefreshToken) {
 
-        final var refreshToken = findOrThrow(requestRefreshToken);
-
-        log.debug("현재 접속한 ID: {}, 토큰내 Member ID: {}", currentMemberId, refreshToken.getMemberId());
-
+        final RefreshToken refreshToken = findOrThrow(savedRefreshToken);
         final long expectedMemberId = refreshToken.getMemberId();
 
         if (expectedMemberId != currentMemberId) {
@@ -74,8 +73,6 @@ public class RefreshTokenService {
             log.warn(errorMessage);
             throw new AuthErrorException(AuthErrorCode.MISMATCHED_REFRESH_TOKEN, errorMessage);
         }
-
-        forbiddenTokenService.register(accessToken, currentMemberId);
 
         refreshTokenRepository.delete(refreshToken);
         log.info("로그아웃: ID: {}", currentMemberId);
@@ -89,7 +86,7 @@ public class RefreshTokenService {
         return refreshTokenExpiration.toMillis();
     }
 
-    private RefreshToken findOrThrow(String refreshToken) {
+    private RefreshToken findOrThrow(final String refreshToken) {
         return refreshTokenRepository.findById(refreshToken)
                 .orElseThrow(() -> new AuthErrorException(AuthErrorCode.REFRESH_TOKEN_NOT_FOUND, "인증 정보를 찾을 수 없습니다"));
     }

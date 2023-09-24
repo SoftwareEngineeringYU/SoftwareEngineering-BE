@@ -1,10 +1,10 @@
-package com.example.sogong.domain.auth.payload;
+package com.example.sogong.domain.auth.payload.response;
 
 import com.example.sogong.global.auth.AuthConstants;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 
-public record TokenRefreshResponse(
+public record TokenRefreshResult(
         @NotBlank
         String accessToken,
         @NotBlank
@@ -12,7 +12,7 @@ public record TokenRefreshResponse(
         String type
 ) {
     @Builder
-    public TokenRefreshResponse {
-        type = AuthConstants.TOKEN_PREFIX;
+    public TokenRefreshResult {
+        type = AuthConstants.TOKEN_PREFIX.getValue();
     }
 }

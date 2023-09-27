@@ -1,4 +1,4 @@
-package com.example.sogong.domain.orders.domain;
+package com.example.sogong.domain.order.domain;
 
 import com.example.sogong.domain.address.domain.Address;
 import com.example.sogong.domain.common.BaseTimeEntity;

@@ -83,7 +83,7 @@ public class RefreshTokenService {
     }
 
     private long getExpiryTime() {
-        return refreshTokenExpiration.toMillis();
+        return refreshTokenExpiration.toSeconds();
     }
 
     private RefreshToken findOrThrow(final String refreshToken) {

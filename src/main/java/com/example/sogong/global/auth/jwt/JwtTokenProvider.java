@@ -36,7 +36,7 @@ public final class JwtTokenProvider {
 
 
     public static String parseJwtFromRequest(HttpServletRequest request) {
-        final String headerAuth = request.getHeader(AuthConstants.AUTH_HEADER.getValue());
+        final String headerAuth = request.getHeader(AuthConstants.AUTH_HEADER);
         return parseJwt(headerAuth);
     }
 
@@ -48,10 +48,10 @@ public final class JwtTokenProvider {
      */
     private static String parseJwt(final String headerAuth) {
 
-        if (StringUtils.hasText(headerAuth) && headerAuth.startsWith(AuthConstants.TOKEN_PREFIX.getValue())) {
-            return headerAuth.substring(AuthConstants.TOKEN_PREFIX.getValue().length()).trim();
+        if (StringUtils.hasText(headerAuth) && headerAuth.startsWith(AuthConstants.TOKEN_TYPE)) {
+            return headerAuth.substring(AuthConstants.TOKEN_TYPE.length()).trim();
         } else {
-            return null;
+            return "";
         }
     }
 

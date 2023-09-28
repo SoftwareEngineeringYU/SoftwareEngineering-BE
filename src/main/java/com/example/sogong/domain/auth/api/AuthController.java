@@ -5,7 +5,7 @@ import com.example.sogong.domain.auth.payload.request.SignupRequest;
 import com.example.sogong.domain.auth.service.AuthSignupService;
 import com.example.sogong.domain.auth.service.AuthTokenService;
 import com.example.sogong.global.auth.AuthConstants;
-import com.example.sogong.global.utils.HeaderUtils;
+import com.example.sogong.global.common.util.HeaderUtils;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;

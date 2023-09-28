@@ -1,4 +1,4 @@
-package com.example.sogong.global.utils;
+package com.example.sogong.global.common.util;
 
 import com.example.sogong.domain.auth.payload.response.TokenDto;
 import com.example.sogong.global.auth.AuthConstants;

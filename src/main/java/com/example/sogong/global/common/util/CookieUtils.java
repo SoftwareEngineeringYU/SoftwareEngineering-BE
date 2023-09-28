@@ -1,4 +1,4 @@
-package com.example.sogong.global.utils;
+package com.example.sogong.global.common.util;
 
 import org.springframework.http.ResponseCookie;
 

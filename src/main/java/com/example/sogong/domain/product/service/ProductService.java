@@ -1,6 +1,6 @@
 package com.example.sogong.domain.product.service;
 
-import com.example.sogong.domain.product.dao.ProductRepository;
+import com.example.sogong.domain.product.repository.ProductRepository;
 import com.example.sogong.domain.product.domain.Product;
 import com.example.sogong.domain.product.dto.CreationProductReq;
 import com.example.sogong.domain.product.dto.GetProductRes;

@@ -23,7 +23,7 @@ public class ForbiddenToken {
     private final long timeToLive;
 
     @Builder
-    private ForbiddenToken(String accessToken, long memberId, long timeToLive) {
+    protected ForbiddenToken(String accessToken, long memberId, long timeToLive) {
         this.accessToken = accessToken;
         this.memberId = memberId;
         this.timeToLive = timeToLive;

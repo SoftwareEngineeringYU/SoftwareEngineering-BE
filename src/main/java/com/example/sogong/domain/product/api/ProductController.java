@@ -1,4 +1,4 @@
-package com.example.sogong.domain.product.controller;
+package com.example.sogong.domain.product.api;
 
 import com.example.sogong.domain.product.dto.CreationProductReq;
 import com.example.sogong.domain.product.dto.GetProductRes;
@@ -42,11 +42,11 @@ public class ProductController {
         return res.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(success(res.get()));
     }
 
-    @PutMapping("/{id}") // PUT PATCH
-    public ResponseEntity<?> productModify(@PathVariable Long id, @RequestBody CreationProductReq request) {
-        Optional<GetProductRes> res = productService.modifyProduct(id, request);
-        return res.isPresent() ? ResponseEntity.ok(success(res.get())) : ResponseEntity.noContent().build();
-    }
+//    @PutMapping("/{id}") // PUT PATCH
+//    public ResponseEntity<?> productModify(@PathVariable Long id, @RequestBody CreationProductReq request) {
+//        Optional<GetProductRes> res = productService.modifyProduct(id, request);
+//        return res.isPresent() ? ResponseEntity.ok(success(res.get())) : ResponseEntity.noContent().build();
+//    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> productRemove(@PathVariable Long id) {

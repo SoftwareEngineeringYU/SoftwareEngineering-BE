@@ -5,6 +5,8 @@ import com.example.sogong.domain.auth.payload.response.SignupResult;
 import com.example.sogong.domain.member.domain.Member;
 import com.example.sogong.domain.member.domain.MemberRole;
 import com.example.sogong.domain.member.repository.MemberRepository;
+import com.example.sogong.global.common.response.code.ErrorCode;
+import com.example.sogong.global.common.response.exception.GlobalErrorException;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -49,7 +51,7 @@ public class AuthSignupService {
 
         if (isDuplicated) {
             log.error("이메일이나 닉네임이 중복입니다. Email: {}, Nickname: {}", signupRequest.email(), signupRequest.nickname());
-            // TODO 중복 예외 발생시키기
+            throw new GlobalErrorException(ErrorCode.DUPLICATE_EMAIL_OR_NICKNAME_ERROR);
         }
     }
 

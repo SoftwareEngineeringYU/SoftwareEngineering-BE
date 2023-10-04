@@ -5,6 +5,7 @@ import com.example.sogong.domain.auth.payload.request.SignupRequest;
 import com.example.sogong.domain.auth.service.AuthSignupService;
 import com.example.sogong.domain.auth.service.AuthTokenService;
 import com.example.sogong.global.auth.AuthConstants;
+import com.example.sogong.global.common.response.SuccessResponse;
 import com.example.sogong.global.common.util.HeaderUtils;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
@@ -25,7 +26,7 @@ public class AuthController {
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@Valid @RequestBody SignupRequest signupRequest) {
         final var result = authSignupService.signup(signupRequest);
-        return new ResponseEntity<>(result, HttpStatus.CREATED);
+        return ResponseEntity.status(HttpStatus.CREATED).body(SuccessResponse.from(result));
     }
 
     @PostMapping("/login")
@@ -33,9 +34,9 @@ public class AuthController {
             @Valid @RequestBody LoginRequest loginRequest
     ) {
         final var result = authTokenService.login(loginRequest);
-        return ResponseEntity.noContent()
+        return ResponseEntity.ok()
                 .headers(HeaderUtils.createLoginTokenHeaders(result))
-                .build();
+                .body(SuccessResponse.noContent());
     }
 
     @PostMapping("/token")
@@ -43,9 +44,9 @@ public class AuthController {
             @CookieValue(AuthConstants.REFRESH_TOKEN) String refreshToken
     ) {
         final var result = authTokenService.refreshTokens(refreshToken);
-        return ResponseEntity.noContent()
+        return ResponseEntity.ok()
                 .headers(HeaderUtils.createLoginTokenHeaders(result))
-                .build();
+                .body(SuccessResponse.noContent());
     }
 
 }

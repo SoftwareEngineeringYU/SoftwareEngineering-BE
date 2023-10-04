@@ -36,7 +36,7 @@ public class AuthController {
         final var result = authTokenService.login(loginRequest);
         return ResponseEntity.ok()
                 .headers(HeaderUtils.createLoginTokenHeaders(result))
-                .build();
+                .body(SuccessResponse.noContent());
     }
 
     @PostMapping("/token")
@@ -46,7 +46,7 @@ public class AuthController {
         final var result = authTokenService.refreshTokens(refreshToken);
         return ResponseEntity.ok()
                 .headers(HeaderUtils.createLoginTokenHeaders(result))
-                .build();
+                .body(SuccessResponse.noContent());
     }
 
 }

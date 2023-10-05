@@ -32,6 +32,9 @@ public class Order extends BaseTimeEntity {
     @Embedded
     private Address shippingAddress; // 배송지
 
+    private String address;
+    private String zipcode;
+
     @JoinColumn(name = "BUYER_ID", nullable = false, updatable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private Member buyer; // 구매자

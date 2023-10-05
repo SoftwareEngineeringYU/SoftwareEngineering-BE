@@ -2,11 +2,16 @@ package com.example.sogong.domain.member.domain;
 
 import com.example.sogong.domain.address.domain.Address;
 import com.example.sogong.domain.common.BaseTimeEntity;
+import com.example.sogong.domain.member.dto.request.MemberRequestDto;
+import com.example.sogong.domain.order.domain.Order;
+import com.example.sogong.domain.review.domain.Review;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -23,9 +28,6 @@ public class Member extends BaseTimeEntity {
     @Column(nullable = false)
     private String nickname;
 
-    @Embedded
-    private Address address;
-
     @Column(unique = true, nullable = false)
     private String email;
 
@@ -39,14 +41,23 @@ public class Member extends BaseTimeEntity {
     )
     private Set<MemberRole> roles = new HashSet<>();
 
+    @OneToMany(mappedBy = "buyer")
+    private List<Order> orders = new ArrayList<>();
+
+    @OneToMany(mappedBy = "")
+    private List<Review> reviews = new ArrayList<>();
 
     @Builder
     private Member(String password, String nickname, String email, Address address, Set<MemberRole> roles) {
         this.password = password;
         this.email = email;
         this.nickname = nickname;
-        this.address = address;
         this.roles = roles;
     }
 
+    public void update(MemberRequestDto memberRequestDto) {
+        this.nickname = memberRequestDto.getNickname();
+        this.email = memberRequestDto.getEmail();
+        this.password = memberRequestDto.getPassword();
+    }
 }

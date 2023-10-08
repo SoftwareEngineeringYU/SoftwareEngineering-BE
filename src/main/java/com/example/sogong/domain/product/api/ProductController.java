@@ -1,14 +1,11 @@
 package com.example.sogong.domain.product.api;
 
-import com.example.sogong.domain.product.application.ProductService;
+import com.example.sogong.domain.product.service.ProductService;
 import com.example.sogong.domain.product.dto.request.ProductRequestDto;
-import com.example.sogong.domain.product.dto.response.ProductResponseDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 
 @RequiredArgsConstructor
 @RestController
@@ -18,16 +15,14 @@ public class ProductController {
 
     // 상품 생성
     @PostMapping
-    public ResponseEntity<ProductResponseDto> createProduct(
+    public ResponseEntity<?> createProduct(
             @RequestBody ProductRequestDto productRequestDto) {
-        ProductResponseDto createdProduct = productService.createProduct(productRequestDto);
-
-        return new ResponseEntity<>(createdProduct, HttpStatus.OK);
+        return new ResponseEntity<>(productService.createProduct(productRequestDto), HttpStatus.OK);
     }
 
     // 상품 전체 반환
     @GetMapping
-    public ResponseEntity<Page<ProductResponseDto>> getProduct(
+    public ResponseEntity<?> getAllProduct(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "createdAt,asc") String sort
@@ -36,22 +31,22 @@ public class ProductController {
     }
 
     // 상품 반환
-    @GetMapping("/{productId}")
-    public ResponseEntity<ProductResponseDto> getProduct(@PathVariable Long productId) {
-        return new ResponseEntity<>(productService.getProduct(productId), HttpStatus.OK);
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getProduct(@PathVariable Long id) {
+        return new ResponseEntity<>(productService.getProduct(id), HttpStatus.OK);
     }
 
     // 상품 갱신
-    @PutMapping("/{productId}")
-    public ResponseEntity<ProductResponseDto> updateProduct(
-            @PathVariable Long productId,
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateProduct(
+            @PathVariable Long id,
             @RequestBody ProductRequestDto productRequestDto) {
-        return new ResponseEntity<>(productService.updateProduct(productId, productRequestDto), HttpStatus.OK);
+        return new ResponseEntity<>(productService.updateProduct(id, productRequestDto), HttpStatus.OK);
     }
 
     // 상품 삭제
-    @DeleteMapping("/{productId}")
-    public void deleteProduct(@PathVariable Long productId) {
-        productService.deleteProduct(productId);
+    @DeleteMapping("/{id}")
+    public void deleteProduct(@PathVariable Long id) {
+        productService.deleteProduct(id);
     }
 }

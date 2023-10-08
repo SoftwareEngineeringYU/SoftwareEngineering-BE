@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Getter
-@Entity
 public class MemberRequestDto
 {
     @Column(nullable = false)

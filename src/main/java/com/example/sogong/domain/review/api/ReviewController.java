@@ -1,6 +1,6 @@
 package com.example.sogong.domain.review.api;
 
-import com.example.sogong.domain.review.application.ReviewService;
+import com.example.sogong.domain.review.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

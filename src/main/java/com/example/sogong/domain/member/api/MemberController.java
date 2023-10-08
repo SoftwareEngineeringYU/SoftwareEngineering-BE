@@ -1,20 +1,14 @@
 package com.example.sogong.domain.member.api;
 
-import com.example.sogong.domain.member.application.MemberService;
+import com.example.sogong.domain.member.service.MemberService;
 import com.example.sogong.domain.member.dto.response.MemberResponseDto;
 
-import com.example.sogong.domain.order.domain.Order;
 import com.example.sogong.domain.review.dto.response.ReviewResponseDto;
-import com.example.sogong.global.auth.jwt.JwtTokenProvider;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -23,14 +17,9 @@ public class MemberController
 {
     private final MemberService memberService;
 
-
-    //조회
-    // GET /api/v1/entity(복수명사)
-    // GET /api/v1/ " /{member_id}
     @GetMapping
-    public ResponseEntity<MemberResponseDto> getMember(@AuthenticationPrincipal) {
-
-
+    public ResponseEntity<MemberResponseDto> getMember() {
+        //ToDO get memberId
 
         return new ResponseEntity<>(memberService.getMember(memberId), HttpStatus.OK);
     }
@@ -38,6 +27,7 @@ public class MemberController
     //수정
     @PutMapping
     public ResponseEntity<MemberResponseDto> updateMember() {
+        //ToDO get memberId
 
         return new ResponseEntity<>(memberService.updateMember(memberId, memberRequestDto), HttpStatus.OK);
     }
@@ -45,6 +35,7 @@ public class MemberController
     //삭제
     @DeleteMapping
     public void deleteMember() {
+        //ToDO get memberId
         memberService.deleteMember(memberId);
     }
 
@@ -55,7 +46,7 @@ public class MemberController
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "createdAt,asc") String sort) {
 
-        Long memberId = getMemberIdFromAccessToken();
+        //ToDO get memberId
 
         return memberService.getPurchasedProducts(memberId, page, size, sort);
     }
@@ -67,7 +58,7 @@ public class MemberController
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "createdAt,asc") String sort) {
 
-        Long memberId = getMemberIdFromAccessToken();
+        //ToDO get memberId
 
         return memberService.getWrittenReviews(memberId, page, size, sort);
     }

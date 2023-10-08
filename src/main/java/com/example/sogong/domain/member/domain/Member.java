@@ -1,14 +1,15 @@
 package com.example.sogong.domain.member.domain;
 
-import com.example.sogong.domain.address.domain.Address;
 import com.example.sogong.domain.common.BaseTimeEntity;
 import com.example.sogong.domain.member.dto.request.MemberRequestDto;
 import com.example.sogong.domain.order.domain.Order;
 import com.example.sogong.domain.review.domain.Review;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -31,15 +32,15 @@ public class Member extends BaseTimeEntity {
     @Column(unique = true, nullable = false)
     private String email;
 
-    private Instant lastLoginAt;
-
-    @Enumerated(EnumType.STRING)
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(
             name = "member_role",
             joinColumns = @JoinColumn(name = "MEMBER_ID")
     )
+    @OrderColumn
+    @Convert(converter = MemberRoleConverter.class)
     private Set<MemberRole> roles = new HashSet<>();
+
 
     @OneToMany(mappedBy = "buyer")
     private List<Order> orders = new ArrayList<>();
@@ -47,8 +48,9 @@ public class Member extends BaseTimeEntity {
     @OneToMany(mappedBy = "")
     private List<Review> reviews = new ArrayList<>();
 
+
     @Builder
-    private Member(String password, String nickname, String email, Address address, Set<MemberRole> roles) {
+    protected Member(String password, String nickname, String email, Set<MemberRole> roles) {
         this.password = password;
         this.email = email;
         this.nickname = nickname;

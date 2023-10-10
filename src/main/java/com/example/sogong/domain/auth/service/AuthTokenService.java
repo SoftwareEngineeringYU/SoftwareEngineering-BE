@@ -1,7 +1,8 @@
 package com.example.sogong.domain.auth.service;
 
-import com.example.sogong.domain.auth.payload.request.LoginRequest;
-import com.example.sogong.domain.auth.payload.response.TokenDto;
+import com.example.sogong.domain.auth.dto.request.LoginRequest;
+import com.example.sogong.domain.auth.dto.response.TokenDto;
+import com.example.sogong.domain.member.repository.MemberRepository;
 import com.example.sogong.global.auth.jwt.JwtTokenProvider;
 import com.example.sogong.global.auth.refresh_token.RefreshToken;
 import com.example.sogong.global.auth.refresh_token.RefreshTokenService;
@@ -13,6 +14,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +27,8 @@ public class AuthTokenService {
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider jwtTokenProvider;
     private final RefreshTokenService refreshTokenService;
+
+    private final MemberRepository memberRepository;
 
 
     public TokenDto login(final LoginRequest loginRequest) {
@@ -63,12 +67,21 @@ public class AuthTokenService {
 
 
     private CustomUserDetails setAuthentication(final LoginRequest loginRequest) {
+        final long memberId = findMemberIdByEmail(loginRequest.email());
+
         final Authentication authentication = authenticationManager
-                .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.email(), loginRequest.password()));
+                .authenticate(new UsernamePasswordAuthenticationToken(memberId, loginRequest.password()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         return (CustomUserDetails) authentication.getPrincipal();
     }
+
+    private long findMemberIdByEmail(final String email) {
+        return memberRepository.findByEmailWithRoles(email)
+                .orElseThrow(() -> new UsernameNotFoundException(email))
+                .getId();
+    }
+
 
 }

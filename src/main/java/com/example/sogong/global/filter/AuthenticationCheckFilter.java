@@ -2,8 +2,9 @@ package com.example.sogong.global.filter;
 
 import com.example.sogong.global.auth.jwt.JwtTokenProvider;
 import com.example.sogong.global.auth.userdetails.UserDetailsServiceImpl;
-import com.example.sogong.global.exception.ErrorCode;
-import com.example.sogong.global.exception.ErrorCodeUtils;
+import com.example.sogong.global.common.response.code.AuthErrorCode;
+import com.example.sogong.global.common.response.code.ErrorCodeUtils;
+import com.example.sogong.global.common.response.code.StateCode;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,6 +27,7 @@ public class AuthenticationCheckFilter extends OncePerRequestFilter {
 
     private final UserDetailsServiceImpl userDetailsService;
     private final JwtTokenProvider jwtTokenProvider;
+
 
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain)
@@ -62,8 +64,8 @@ public class AuthenticationCheckFilter extends OncePerRequestFilter {
 
 
     private void handleError(final HttpServletRequest request, final Exception exception) {
-        final ErrorCode errorCode = ErrorCodeUtils.determineErrorCode(exception);
-        request.setAttribute(ErrorCodeUtils.getErrorAttr(), errorCode);
+        final StateCode stateCode = ErrorCodeUtils.determineErrorCodeOrDefault(exception, AuthErrorCode.FAILED_AUTHENTICATION);
+
     }
 
 }

@@ -19,7 +19,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     /**
      * 로그인을 위해 아이디로 가입한 멤버 찾기
      *
-     * @param identity - 구분을 위한 고유 정보. Member ID 또는 이메일
+     * @param identity - 구분을 위한 고유 정보. Member ID
      */
     @Override
     public UserDetails loadUserByUsername(final String identity) throws UsernameNotFoundException {
@@ -27,7 +27,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             final Long memberId = Long.parseLong(identity);
             return loadMemberById(memberId);
         } catch (NumberFormatException exception) {
-            return loadMemberByEmail(identity);
+            throw new UsernameNotFoundException(identity);
         }
     }
 
@@ -35,12 +35,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private CustomUserDetails loadMemberById(final Long memberId) {
         final var member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new UsernameNotFoundException(memberId.toString()));
-        return CustomUserDetails.of(member);
-    }
-
-    private CustomUserDetails loadMemberByEmail(final String email) {
-        final var member = memberRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException(email));
         return CustomUserDetails.of(member);
     }
 

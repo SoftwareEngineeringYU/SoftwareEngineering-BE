@@ -25,8 +25,8 @@ class SecurityAdapterConfig extends SecurityConfigurerAdapter<DefaultSecurityFil
     public void configure(HttpSecurity httpSecurity) throws Exception {
 
         httpSecurity.authenticationProvider(authenticationProvider);
-        httpSecurity.addFilterBefore(tokenBanCheckFilter, UsernamePasswordAuthenticationFilter.class);
         httpSecurity.addFilterBefore(authenticationCheckFilter, UsernamePasswordAuthenticationFilter.class);
+        httpSecurity.addFilterBefore(tokenBanCheckFilter, AuthenticationCheckFilter.class);
     }
 
 }

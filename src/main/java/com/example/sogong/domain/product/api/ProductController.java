@@ -1,10 +1,12 @@
 package com.example.sogong.domain.product.api;
 
+
 import com.example.sogong.domain.product.application.ProductService;
 import com.example.sogong.domain.product.dto.request.ProductRequestDto;
 import com.example.sogong.domain.product.dto.response.ProductResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -53,5 +55,7 @@ public class ProductController {
     @DeleteMapping("/{productId}")
     public void deleteProduct(@PathVariable Long productId) {
         productService.deleteProduct(productId);
+
+
     }
 }

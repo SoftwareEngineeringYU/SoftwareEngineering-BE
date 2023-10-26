@@ -64,6 +64,7 @@ public class Product extends BaseTimeEntity {
         this.images = images;
     }
 
+
     public Product(ProductRequestDto productRequestDto) {
         this.name = productRequestDto.getName();
         this.price = productRequestDto.getPrice();
@@ -83,5 +84,6 @@ public class Product extends BaseTimeEntity {
         this.seller = productRequestDto.getSeller();
         this.images = productRequestDto.getImages();
     }
+
 
 }

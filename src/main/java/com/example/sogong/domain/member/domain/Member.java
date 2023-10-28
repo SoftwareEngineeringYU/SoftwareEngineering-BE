@@ -47,7 +47,6 @@ public class Member extends BaseTimeEntity {
     @OneToMany(mappedBy = "buyer")
     private List<Order> orders = new ArrayList<>();
 
-
     @Builder
     protected Member(String password, String nickname, String email, Set<MemberRole> roles) {
         this.password = password;

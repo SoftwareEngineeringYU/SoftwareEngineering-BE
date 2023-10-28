@@ -47,6 +47,7 @@ public class ProductController {
     @DeleteMapping("/{id}")
     public void deleteProduct(@PathVariable Long id) {
         productService.deleteProduct(id);
+    }
 //=======
 //import java.util.List;
 //import java.util.Optional;
@@ -92,5 +93,4 @@ public class ProductController {
 //        productService.removeProduct(id);
 //        return ResponseEntity.status(HttpStatus.OK).body(successWithNoContent());
 //>>>>>>> dev
-    }
 }

@@ -24,6 +24,7 @@ public class AuthSignupService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
 
+
     @Transactional
     public SignupResult signup(final SignupRequest signupRequest) {
 

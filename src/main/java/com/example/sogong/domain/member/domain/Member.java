@@ -41,12 +41,11 @@ public class Member extends BaseTimeEntity {
     @Convert(converter = MemberRoleConverter.class)
     private Set<MemberRole> roles = new HashSet<>();
 
+    @OneToMany(mappedBy = "writer", fetch = FetchType.LAZY)
+    private List<Review> reviews;
 
     @OneToMany(mappedBy = "buyer")
     private List<Order> orders = new ArrayList<>();
-
-    @OneToMany(mappedBy = "")
-    private List<Review> reviews = new ArrayList<>();
 
 
     @Builder

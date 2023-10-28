@@ -1,5 +1,6 @@
 package com.example.sogong.domain.address.domain;
 
+import com.example.sogong.domain.address.dto.request.AddressRequestDto;
 import com.example.sogong.domain.member.domain.Member;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
@@ -23,14 +24,22 @@ public class Address {
     @ManyToOne(fetch = FetchType.LAZY)
     private Member addressee;
 
-    //멤버한테 원투매니로 필요??
-
-
     @Builder
     public Address(String address, String zipcode, Member addressee) {
         this.address = address;
         this.zipcode = zipcode;
-        this.addressee=addressee;
+        this.addressee = addressee;
     }
 
+    public void update(AddressRequestDto addressRequestDto) {
+        this.address = addressRequestDto.getAddress();
+        this.zipcode = addressRequestDto.getZipcode();
+        this.addressee = addressRequestDto.getAddressee();
+    }
+
+    public Address(AddressRequestDto addressRequestDto) {
+        this.address = addressRequestDto.getAddress();
+        this.zipcode = addressRequestDto.getZipcode();
+        this.addressee = addressRequestDto.getAddressee();
+    }
 }

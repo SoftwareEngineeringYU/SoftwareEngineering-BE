@@ -2,8 +2,8 @@ package com.example.sogong.domain.cart.service;
 
 
 import com.example.sogong.domain.cart.domain.Cart;
-import com.example.sogong.domain.cart.dto.CartCreateRequest;
-import com.example.sogong.domain.cart.dto.CartDto;
+import com.example.sogong.domain.cart.dto.request.CartRequestDto;
+import com.example.sogong.domain.cart.dto.response.CartResponseDto;
 import com.example.sogong.domain.cart.repository.CartRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -16,28 +16,25 @@ public class CartService
     private final CartRepository cartRepository;
 
     @Transactional
-    public CartDto getCart(Long cartId)
-    {
-        Cart cart = cartRepository.findById(cartId)
-                .orElseThrow(() -> new IllegalArgumentException(""));
-        return new CartDto(cart);
-    }
-
-    //생성
-    @Transactional
-    public void createCart(CartCreateRequest cartReq)
-    {
-        cartRepository.save(cartReq.toEntity());
+    public CartResponseDto createCart(CartRequestDto cartRequestDto) {
+        return new CartResponseDto(cartRepository.save(new Cart(cartRequestDto)));
     }
 
     @Transactional
-    public CartDto updateCart(Long cartId, CartDto cartDto)
-    {
+    public CartResponseDto getCart(Long cartId) {
+        Cart cart = cartRepository.findById(cartId)
+                .orElseThrow(() -> new IllegalArgumentException(""));
+        return new CartResponseDto(cart);
+    }
+
+
+    @Transactional
+    public CartResponseDto updateCart(Long cartId, CartRequestDto cartRequestDto) {
         Cart cart = cartRepository.findById(cartId)
                 .orElseThrow(() -> new IllegalArgumentException(""));
 
-       // cart.update(cartDto);
-        return new CartDto(cart);
+        cart.update(cartRequestDto);
+        return new CartResponseDto(cart);
     }
 
     @Transactional

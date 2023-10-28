@@ -1,11 +1,7 @@
 package com.example.sogong.domain.cart.controller;
 
-import com.example.sogong.domain.address.dto.AddressCreateRequest;
-import com.example.sogong.domain.address.dto.AddressDto;
-import com.example.sogong.domain.cart.dto.CartCreateRequest;
-import com.example.sogong.domain.cart.dto.CartDto;
+import com.example.sogong.domain.cart.dto.request.CartRequestDto;
 import com.example.sogong.domain.cart.service.CartService;
-import com.example.sogong.domain.cart_product.service.CartProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,34 +9,31 @@ import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
-public class CartController
-{
+public class CartController {
     private final CartService cartService;
 
-    //물품들 보기??
-
-
-    //생성
+    // 카트 생성
     @PostMapping
-    public ResponseEntity<?> createCart(@RequestBody CartCreateRequest cartReq) {
-        cartService.createCart(cartReq);
-
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(successWithNoContent());
+    public ResponseEntity<?> createCart(@RequestBody CartRequestDto cartRequestDto) {
+        return new ResponseEntity<>(cartService.createCart(cartRequestDto), HttpStatus.OK);
     }
 
-
-    //수정
-    @PutMapping
-    public ResponseEntity<CartDto> updateCart(@PathVariable Long cartId, CartDto cartDto)
-    {
-        return new ResponseEntity<>(cartService.updateCart(cartId,cartDto), HttpStatus.OK);
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getCart(@PathVariable Long id) {
+        return new ResponseEntity<>(cartService.getCart(id), HttpStatus.OK);
     }
 
-    //삭제
-    @DeleteMapping
-    public void deleteCart(@PathVariable Long cartId)
-    {
-        cartService.deleteCart(cartId);
+    // 카트 수정
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateCart(
+            @PathVariable Long id,
+            @RequestBody CartRequestDto cartRequestDto) {
+        return new ResponseEntity<>(cartService.updateCart(id, cartRequestDto), HttpStatus.OK);
+    }
+
+    // 카트 삭제
+    @DeleteMapping("/{id}")
+    public void deleteCart(@PathVariable Long id) {
+        cartService.deleteCart(id);
     }
 }

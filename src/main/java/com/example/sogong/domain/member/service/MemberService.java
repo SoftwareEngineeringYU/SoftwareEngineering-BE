@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
     private final MemberRepository memberRepository;
 
-
     @Transactional
     public MemberResponseDto getMember(Long memberId) {
         Member member = memberRepository.findById(memberId)

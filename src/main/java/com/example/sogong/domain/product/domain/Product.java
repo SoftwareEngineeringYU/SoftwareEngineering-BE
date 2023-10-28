@@ -63,8 +63,7 @@ public class Product extends BaseTimeEntity {
         this.seller = seller;
         this.images = images;
     }
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 
     public Product(ProductRequestDto productRequestDto) {
         this.name = productRequestDto.getName();
@@ -86,8 +85,5 @@ public class Product extends BaseTimeEntity {
         this.images = productRequestDto.getImages();
     }
 
-=======
->>>>>>> origin
-=======
->>>>>>> dev
+
 }

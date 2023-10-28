@@ -4,6 +4,7 @@ import com.example.sogong.domain.common.BaseTimeEntity;
 import com.example.sogong.domain.image.domain.ImageData;
 import com.example.sogong.domain.member.domain.Member;
 import com.example.sogong.domain.product.domain.Product;
+import com.example.sogong.domain.review.dto.request.ReviewRequestDto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -55,6 +56,24 @@ public class Review extends BaseTimeEntity {
         this.writer = writer;
         this.product = product;
         this.images = images;
+    }
+
+    public Review(ReviewRequestDto reviewRequestDto) {
+        this.title = reviewRequestDto.getTitle();
+        this.body = reviewRequestDto.getBody();
+        this.rating = reviewRequestDto.getRating();
+        this.writer = reviewRequestDto.getWriter();
+        this.product = reviewRequestDto.getProduct();
+        this.images = reviewRequestDto.getImages();
+    }
+
+    public void update(ReviewRequestDto reviewRequestDto) {
+        this.title = reviewRequestDto.getTitle();
+        this.body = reviewRequestDto.getBody();
+        this.rating = reviewRequestDto.getRating();
+        this.writer = reviewRequestDto.getWriter();
+        this.product = reviewRequestDto.getProduct();
+        this.images = reviewRequestDto.getImages();
     }
 
 }

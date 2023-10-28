@@ -14,6 +14,11 @@ public class ReviewService {
     private final ReviewRepository reviewRepository;
 
     @Transactional
+    public ReviewResponseDto createReview(ReviewRequestDto reviewRequestDto) {
+        return new ReviewResponseDto(reviewRepository.save(new Review(reviewRequestDto)));
+    }
+
+    @Transactional
     public ReviewResponseDto getReview(Long reviewId) {
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new IllegalArgumentException(""));
@@ -26,7 +31,7 @@ public class ReviewService {
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new IllegalArgumentException(""));
 
-
+        review.update(reviewRequestDto);
 
         return new ReviewResponseDto(review);
     }

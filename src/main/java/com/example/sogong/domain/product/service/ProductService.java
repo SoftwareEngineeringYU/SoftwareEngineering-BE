@@ -19,8 +19,7 @@ public class ProductService {
 
     @Transactional
     public ProductResponseDto createProduct(ProductRequestDto productRequestDto) {
-        return new ProductResponseDto(productRepository
-                .save(new Product(productRequestDto)));
+        return new ProductResponseDto(productRepository.save(new Product(productRequestDto)));
     }
 
     @Transactional

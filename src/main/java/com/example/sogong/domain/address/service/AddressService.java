@@ -1,8 +1,8 @@
 package com.example.sogong.domain.address.service;
 
 import com.example.sogong.domain.address.domain.Address;
-import com.example.sogong.domain.address.dto.AddressDto;
-import com.example.sogong.domain.address.dto.AddressCreateRequest;
+import com.example.sogong.domain.address.dto.request.AddressRequestDto;
+import com.example.sogong.domain.address.dto.response.AddressResponseDto;
 import com.example.sogong.domain.address.repository.AddressRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -10,40 +10,32 @@ import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
-public class AddressService
-{
+public class AddressService {
     private final AddressRepository addressRepository;
 
     @Transactional
-    public AddressDto getAddress(Long addressId)
-    {
+    public AddressResponseDto createAddress(AddressRequestDto addressRequestDto) {
+        return new AddressResponseDto(addressRepository.save(new Address(addressRequestDto)));
+    }
+
+    @Transactional
+    public AddressResponseDto getAddress(Long addressId) {
         Address address = addressRepository.findById(addressId)
                 .orElseThrow(() -> new IllegalArgumentException(""));
-        return new AddressDto(address);
+        return new AddressResponseDto(address);
     }
 
     @Transactional
-    public void createAddress(AddressCreateRequest addressReq)
-    {
-        addressRepository.save(addressReq.toEntity());
-    }
-
-    @Transactional
-    public AddressDto updateAddress(Long addressId, AddressDto addressDto)
-    {
+    public AddressResponseDto updateAddress(Long addressId, AddressRequestDto addressRequestDto) {
         Address address = addressRepository.findById(addressId)
                 .orElseThrow(() -> new IllegalArgumentException(""));
 
-      //  address.update(addressDto);
-        return new AddressDto(address);
+        address.update(addressRequestDto);
+        return new AddressResponseDto(address);
     }
 
     @Transactional
-    public void deleteAddress(Long addressId)
-    {
-        /* address = addressRepository.findById(addressId)
-                .orElseThrow(() -> new IllegalArgumentException(""));
-        */
+    public void deleteAddress(Long addressId) {
         addressRepository.deleteById(addressId);
     }
 

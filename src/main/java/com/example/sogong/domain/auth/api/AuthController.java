@@ -1,7 +1,7 @@
 package com.example.sogong.domain.auth.api;
 
-import com.example.sogong.domain.auth.payload.request.LoginRequest;
-import com.example.sogong.domain.auth.payload.request.SignupRequest;
+import com.example.sogong.domain.auth.dto.request.LoginRequest;
+import com.example.sogong.domain.auth.dto.request.SignupRequest;
 import com.example.sogong.domain.auth.service.AuthSignupService;
 import com.example.sogong.domain.auth.service.AuthTokenService;
 import com.example.sogong.global.auth.AuthConstants;

@@ -1,7 +1,7 @@
 package com.example.sogong.global.auth.refresh_token;
 
-import com.example.sogong.global.exception.auth.AuthErrorCode;
-import com.example.sogong.global.exception.auth.AuthErrorException;
+import com.example.sogong.global.common.response.code.AuthErrorCode;
+import com.example.sogong.global.common.response.exception.AuthErrorException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

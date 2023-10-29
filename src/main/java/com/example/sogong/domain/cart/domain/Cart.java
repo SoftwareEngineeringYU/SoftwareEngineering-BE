@@ -1,6 +1,8 @@
 package com.example.sogong.domain.cart.domain;
 
+import com.example.sogong.domain.cart.dto.request.CartRequestDto;
 import com.example.sogong.domain.cart_product.domain.CartProduct;
+import com.example.sogong.domain.cart_product.dto.request.CartProductRequestDto;
 import com.example.sogong.domain.common.BaseTimeEntity;
 import com.example.sogong.domain.member.domain.Member;
 import jakarta.persistence.*;
@@ -28,6 +30,16 @@ public class Cart extends BaseTimeEntity {
     private Cart(Member owner) {
         this.owner = owner;
         this.cartItems = new ArrayList<>();
+    }
+
+    public Cart(CartRequestDto cartRequestDto) {
+        this.owner = cartRequestDto.getOwner();
+        this.cartItems = cartRequestDto.getCartItems();
+    }
+
+    public void update(CartRequestDto cartRequestDto) {
+        this.owner = cartRequestDto.getOwner();
+        this.cartItems = cartRequestDto.getCartItems();
     }
 
 }

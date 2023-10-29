@@ -4,6 +4,7 @@ import com.example.sogong.domain.category.domain.Category;
 import com.example.sogong.domain.common.BaseTimeEntity;
 import com.example.sogong.domain.image.domain.ImageData;
 import com.example.sogong.domain.member.domain.Member;
+import com.example.sogong.domain.product.dto.request.ProductRequestDto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -62,4 +63,27 @@ public class Product extends BaseTimeEntity {
         this.seller = seller;
         this.images = images;
     }
+
+
+    public Product(ProductRequestDto productRequestDto) {
+        this.name = productRequestDto.getName();
+        this.price = productRequestDto.getPrice();
+        this.description = productRequestDto.getDescription();
+        this.stockAmount = productRequestDto.getStockAmount();
+        this.category = productRequestDto.getCategory();
+        this.seller = productRequestDto.getSeller();
+        this.images = productRequestDto.getImages();
+    }
+
+    public void update(ProductRequestDto productRequestDto) {
+        this.name = productRequestDto.getName();
+        this.price = productRequestDto.getPrice();
+        this.description = productRequestDto.getDescription();
+        this.stockAmount = productRequestDto.getStockAmount();
+        this.category = productRequestDto.getCategory();
+        this.seller = productRequestDto.getSeller();
+        this.images = productRequestDto.getImages();
+    }
+
+
 }

@@ -1,10 +1,14 @@
 package com.example.sogong.domain.cart_product.domain;
 
 import com.example.sogong.domain.cart.domain.Cart;
+import com.example.sogong.domain.cart_product.dto.request.CartProductRequestDto;
 import com.example.sogong.domain.common.BaseTimeEntity;
 import com.example.sogong.domain.product.domain.Product;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -30,6 +34,18 @@ public class CartProduct extends BaseTimeEntity {
         this.quantity = quantity;
         this.product = product;
         this.cart = cart;
+    }
+
+    public CartProduct(CartProductRequestDto cartProductRequestDto) {
+        this.quantity = cartProductRequestDto.getQuantity();
+        this.product = cartProductRequestDto.getProduct();
+        this.cart = cartProductRequestDto.getCart();
+    }
+
+    public void update(CartProductRequestDto cartProductRequestDto) {
+        this.quantity = cartProductRequestDto.getQuantity();
+        this.product = cartProductRequestDto.getProduct();
+        this.cart = cartProductRequestDto.getCart();
     }
 
 }

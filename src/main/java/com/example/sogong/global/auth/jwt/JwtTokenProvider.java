@@ -1,9 +1,9 @@
 package com.example.sogong.global.auth.jwt;
 
 import com.example.sogong.global.auth.AuthConstants;
-import com.example.sogong.global.exception.ErrorCodeUtils;
-import com.example.sogong.global.exception.auth.AuthErrorCode;
-import com.example.sogong.global.exception.auth.AuthErrorException;
+import com.example.sogong.global.common.response.code.ErrorCodeUtils;
+import com.example.sogong.global.common.response.code.AuthErrorCode;
+import com.example.sogong.global.common.response.exception.AuthErrorException;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,7 +20,7 @@ import java.util.Map;
 
 @Slf4j
 @Component
-public final class JwtTokenProvider {
+public class JwtTokenProvider {
 
     private final Key tokenSecretKey;
     private final Duration tokenExpiration;
@@ -107,9 +107,9 @@ public final class JwtTokenProvider {
         );
     }
 
-    private static Map<String, Object> createClaims(final long id, final Date expiryDate) {
+    private static Map<String, Object> createClaims(final Long subject, final Date expiryDate) {
         return Map.of(
-                Claims.SUBJECT, id,
+                Claims.SUBJECT, subject,
                 Claims.EXPIRATION, expiryDate
         );
     }

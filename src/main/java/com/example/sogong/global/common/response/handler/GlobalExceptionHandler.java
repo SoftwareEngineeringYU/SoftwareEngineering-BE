@@ -4,7 +4,7 @@ import com.example.sogong.global.common.response.ErrorResponse;
 import com.example.sogong.global.common.response.FailureResponse;
 import com.example.sogong.global.common.response.code.ErrorCode;
 import com.example.sogong.global.common.response.exception.GlobalErrorException;
-import com.example.sogong.global.exception.auth.AuthErrorException;
+import com.example.sogong.global.common.response.exception.AuthErrorException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,7 +46,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(AuthErrorException.class)
     protected ResponseEntity<ErrorResponse> handleAuthErrorException(AuthErrorException e) {
         log.error("handleAuthErrorException : {}", e.getMessage());
-        final ErrorResponse response = ErrorResponse.of(e.getErrorCode().getDetail());
+        final ErrorResponse response = ErrorResponse.of(e.getErrorCode().getMessage());
         return ResponseEntity.status(e.getErrorCode().getHttpStatus()).body(response);
     }
 

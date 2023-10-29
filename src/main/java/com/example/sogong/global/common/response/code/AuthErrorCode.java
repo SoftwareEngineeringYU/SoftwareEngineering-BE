@@ -1,16 +1,16 @@
-package com.example.sogong.global.exception.auth;
+package com.example.sogong.global.common.response.code;
 
-import com.example.sogong.global.exception.ErrorCode;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 
-import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.HttpStatus.FORBIDDEN;
+import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
-public enum AuthErrorCode implements ErrorCode {
+public enum AuthErrorCode implements StateCode {
 
     // 401 UNAUTHORIZED: 인증되지 않은 사용자
     EMPTY_ACCESS_TOKEN(UNAUTHORIZED, "액세스 토큰이 필요합니다. (현재 빈 토큰)"),
@@ -29,10 +29,6 @@ public enum AuthErrorCode implements ErrorCode {
     ;
 
     private final HttpStatus httpStatus;
-    private final String detail;
+    private final String message;
 
-    @Override
-    public String getName() {
-        return this.name();
-    }
 }

@@ -1,5 +1,8 @@
 package com.example.sogong.global.auth.entrypoint;
 
+import com.example.sogong.global.common.response.ErrorResponse;
+import com.example.sogong.global.common.response.code.AuthErrorCode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AccessLevel;
@@ -17,13 +20,25 @@ import java.io.IOException;
 @Component
 public class AuthEntryPointJwt implements AuthenticationEntryPoint {
 
+    private final ObjectMapper objectMapper;
+
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
             throws IOException {
 
-        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        ErrorResponse errorResponse = makeErrorResponse(authException);
 
-        // TODO 에러 클래스 생성 후 반환
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        objectMapper.writeValue(response.getOutputStream(), errorResponse);
+    }
+
+    private ErrorResponse makeErrorResponse(AuthenticationException authException) {
+        if (authException == null) {
+            AuthErrorCode errorCode = AuthErrorCode.FAILED_AUTHENTICATION;
+            return new ErrorResponse(errorCode.name(), errorCode.getMessage());
+        }
+
+        return new ErrorResponse(authException.toString(), authException.getMessage());
     }
 
 }

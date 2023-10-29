@@ -1,7 +1,7 @@
 package com.example.sogong.domain.auth.service;
 
-import com.example.sogong.domain.auth.payload.request.SignupRequest;
-import com.example.sogong.domain.auth.payload.response.SignupResult;
+import com.example.sogong.domain.auth.dto.request.SignupRequest;
+import com.example.sogong.domain.auth.dto.response.SignupResult;
 import com.example.sogong.domain.member.domain.Member;
 import com.example.sogong.domain.member.domain.MemberRole;
 import com.example.sogong.domain.member.repository.MemberRepository;
@@ -36,7 +36,7 @@ public class AuthSignupService {
                 .email(signupRequest.email())
                 .nickname(signupRequest.nickname())
                 .roles(roles)
-                .password(encodePassword(signupRequest))
+                .password(encodePassword(signupRequest.password()))
                 .build();
         memberRepository.save(member);
 
@@ -55,8 +55,8 @@ public class AuthSignupService {
         }
     }
 
-    private String encodePassword(final SignupRequest signupRequest) {
-        return passwordEncoder.encode(signupRequest.password());
+    private String encodePassword(final String password) {
+        return passwordEncoder.encode(password);
     }
 
 }

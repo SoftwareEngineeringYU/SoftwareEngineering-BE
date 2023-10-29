@@ -1,8 +1,8 @@
 package com.example.sogong.global.resolver.access_token;
 
 import com.example.sogong.global.auth.jwt.JwtTokenProvider;
-import com.example.sogong.global.exception.auth.AuthErrorCode;
-import com.example.sogong.global.exception.auth.AuthErrorException;
+import com.example.sogong.global.common.response.code.AuthErrorCode;
+import com.example.sogong.global.common.response.exception.AuthErrorException;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AccessLevel;

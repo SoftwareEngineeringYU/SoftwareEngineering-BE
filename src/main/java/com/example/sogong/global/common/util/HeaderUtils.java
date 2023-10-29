@@ -1,6 +1,6 @@
 package com.example.sogong.global.common.util;
 
-import com.example.sogong.domain.auth.payload.response.TokenDto;
+import com.example.sogong.domain.auth.dto.response.TokenDto;
 import com.example.sogong.global.auth.AuthConstants;
 import org.springframework.http.HttpHeaders;
 

@@ -1,14 +1,12 @@
-package com.example.sogong.global.exception;
+package com.example.sogong.global.common.response.code;
 
-import com.example.sogong.global.exception.auth.AuthErrorCode;
-import com.example.sogong.global.exception.auth.AuthErrorException;
+import com.example.sogong.global.common.response.exception.AuthErrorException;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.security.SignatureException;
 import lombok.AccessLevel;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.Map;
@@ -27,16 +25,12 @@ public class ErrorCodeUtils {
         return errorCodeMap.getOrDefault(exception.getClass(), defaultErrorCode);
     }
 
-    @Getter
-    private final static String errorAttr = ErrorCode.class.getName();
-
-
-    public static ErrorCode determineErrorCode(final Exception exception) {
+    public static StateCode determineErrorCodeOrDefault(final Exception exception, final StateCode defaultErrorCode) {
 
         if (exception instanceof AuthErrorException authErrorException) {
             return authErrorException.getErrorCode();
         } else {
-            return null;
+            return defaultErrorCode;
         }
     }
 

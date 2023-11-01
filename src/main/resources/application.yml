@@ -1,7 +1,7 @@
 spring:
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: none
     show-sql: true
     open-in-view: false
 
@@ -17,6 +17,10 @@ spring:
       port: ${REDIS_PORT}
       url: jdbc:redis://${REDIS_USER}:${REDIS_PASSWORD}@${REDIS_HOST}:${PORT}
       password: ${REDIS_PASSWORD}
+
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
 
 app:
   token:

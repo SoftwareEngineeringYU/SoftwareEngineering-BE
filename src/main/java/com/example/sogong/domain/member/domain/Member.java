@@ -44,8 +44,8 @@ public class Member extends BaseTimeEntity {
     @OneToMany(mappedBy = "writer", fetch = FetchType.LAZY)
     private List<Review> reviews;
 
-    @OneToMany(mappedBy = "buyer")
-    private List<Order> orders = new ArrayList<>();
+    @OneToMany(mappedBy = "buyer", fetch = FetchType.LAZY)
+    private List<Order> orders;
 
     @Builder
     protected Member(String password, String nickname, String email, Set<MemberRole> roles) {
@@ -53,6 +53,8 @@ public class Member extends BaseTimeEntity {
         this.email = email;
         this.nickname = nickname;
         this.roles = roles;
+        reviews = new ArrayList<>();
+        orders = new ArrayList<>();
     }
 
     public void update(MemberRequestDto memberRequestDto) {

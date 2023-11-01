@@ -2,10 +2,7 @@ package com.example.sogong.domain.address.domain;
 
 import com.example.sogong.domain.address.dto.request.AddressRequestDto;
 import com.example.sogong.domain.member.domain.Member;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.validation.constraints.Size;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,11 +10,14 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@Entity
 public class Address {
-    @Size(min = 1, max = 10, message = "주소는 1 ~ 10자 이내여야 합니다")
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private String address;
 
-    @Size(min = 1, max = 10, message = "우편번호는 1 ~ 10자 이내여야 합니다")
     private String zipcode;
 
     @JoinColumn(name = "ADDRESSEE", nullable = false, updatable = false)

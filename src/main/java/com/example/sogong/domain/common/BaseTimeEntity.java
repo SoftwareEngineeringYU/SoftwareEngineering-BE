@@ -15,10 +15,8 @@ import java.time.Instant;
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 public abstract class BaseTimeEntity {
-
     @CreatedDate
-    private Instant createAt;
-
+    private Instant createdAt;
     @LastModifiedDate
-    private Instant updateAt;
+    private Instant updatedAt;
 }

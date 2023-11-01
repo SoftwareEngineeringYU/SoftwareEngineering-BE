@@ -2,7 +2,9 @@ package com.example.sogong.domain.product.api;
 
 import com.example.sogong.domain.product.dto.request.ProductRequestDto;
 import com.example.sogong.domain.product.service.ProductService;
+import com.example.sogong.global.common.response.SuccessResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,18 +23,16 @@ public class ProductController {
 
     // 상품 전체 반환
     @GetMapping
-    public ResponseEntity<?> getAllProduct(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "createdAt,asc") String sort
-    ) {
-        return new ResponseEntity<>(productService.getAllProduct(page, size, sort), HttpStatus.OK);
+    public ResponseEntity<?> getAllProduct(Pageable pageable) {
+        final var data = productService.getAllProduct(pageable);
+        return ResponseEntity.ok(SuccessResponse.from(data));
     }
 
     // 상품 반환
     @GetMapping("/{id}")
     public ResponseEntity<?> getProduct(@PathVariable Long id) {
-        return new ResponseEntity<>(productService.getProduct(id), HttpStatus.OK);
+        final var data = productService.getProduct(id);
+        return ResponseEntity.ok(SuccessResponse.from(data));
     }
 
     // 상품 갱신
@@ -40,7 +40,8 @@ public class ProductController {
     public ResponseEntity<?> updateProduct(
             @PathVariable Long id,
             @RequestBody ProductRequestDto productRequestDto) {
-        return new ResponseEntity<>(productService.updateProduct(id, productRequestDto), HttpStatus.OK);
+        final var data = productService.updateProduct(id, productRequestDto);
+        return ResponseEntity.ok(SuccessResponse.from(data));
     }
 
     // 상품 삭제

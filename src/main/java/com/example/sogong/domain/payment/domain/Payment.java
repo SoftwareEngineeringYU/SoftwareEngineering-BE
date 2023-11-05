@@ -1,6 +1,7 @@
 package com.example.sogong.domain.payment.domain;
 
 import com.example.sogong.domain.order.domain.Order;
+import com.example.sogong.domain.payment.dto.request.PaymentRequestDto;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -17,5 +18,13 @@ public class Payment {
 
     @OneToOne
     private Order order;
+
+    public Payment(PaymentRequestDto paymentRequestDto) {
+        this.order = paymentRequestDto.getOrder();
+    }
+
+    public void update(PaymentRequestDto paymentRequestDto) {
+        this.order = paymentRequestDto.getOrder();
+    }
 
 }

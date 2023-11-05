@@ -29,7 +29,8 @@ public class Order extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private CsStatus csStatus; // CS 상태
 
-    @Embedded
+    @JoinColumn(name = "ADDRESS_ID", nullable = false, updatable = false)
+    @OneToOne(fetch = FetchType.LAZY)
     private Address shippingAddress; // 배송지
 
     @JoinColumn(name = "BUYER_ID", nullable = false, updatable = false)

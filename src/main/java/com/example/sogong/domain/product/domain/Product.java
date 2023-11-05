@@ -4,10 +4,9 @@ import com.example.sogong.domain.category.domain.Category;
 import com.example.sogong.domain.common.BaseTimeEntity;
 import com.example.sogong.domain.image.domain.ImageData;
 import com.example.sogong.domain.member.domain.Member;
+import com.example.sogong.domain.product.dto.request.ProductRequestDto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,16 +22,17 @@ public class Product extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
+    @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false)
     @Min(value = 0, message = "상품의 가격은 0 이상이어야 합니다")
     private Integer price;
 
-    @NotBlank(message = "상품 설명을 입력해야 합니다")
-    @Size(min = 1, max = 200, message = "상품 설명란은 공백이 아니여야 하고 200자 이내여야 합니다")
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String description;
 
+    @Column(nullable = false)
     @Min(value = 0, message = "상품의 재고량은 0 이상이어야 합니다")
     private Integer stockAmount;
 
@@ -53,7 +53,7 @@ public class Product extends BaseTimeEntity {
     private List<ImageData> images;
 
     @Builder
-    private Product(String name, Integer price, String description, Integer stockAmount, Category category, Member seller, List<ImageData> images) {
+    protected Product(String name, Integer price, String description, Integer stockAmount, Category category, Member seller, List<ImageData> images) {
         this.name = name;
         this.price = price;
         this.description = description;
@@ -62,4 +62,28 @@ public class Product extends BaseTimeEntity {
         this.seller = seller;
         this.images = images;
     }
+
+    public static Product of(ProductRequestDto productRequestDto) {
+        return Product.builder()
+                .name(productRequestDto.getName())
+                .price(productRequestDto.getPrice())
+                .description(productRequestDto.getDescription())
+                .stockAmount(productRequestDto.getStockAmount())
+                .category(productRequestDto.getCategory())
+                .seller(productRequestDto.getSeller())
+                .images(productRequestDto.getImages())
+                .build();
+    }
+
+    public void update(ProductRequestDto productRequestDto) {
+        this.name = productRequestDto.getName();
+        this.price = productRequestDto.getPrice();
+        this.description = productRequestDto.getDescription();
+        this.stockAmount = productRequestDto.getStockAmount();
+        this.category = productRequestDto.getCategory();
+        this.seller = productRequestDto.getSeller();
+        this.images = productRequestDto.getImages();
+    }
+
+
 }

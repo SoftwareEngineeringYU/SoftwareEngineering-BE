@@ -1,7 +1,7 @@
 spring:
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: none
     show-sql: true
     open-in-view: false
 
@@ -29,6 +29,12 @@ springdoc:
   api-docs:
     groups:
       enabled: true
+
+
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
 
 app:
   token:

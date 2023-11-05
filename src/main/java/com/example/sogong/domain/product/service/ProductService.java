@@ -1,42 +1,58 @@
 package com.example.sogong.domain.product.service;
 
-import com.example.sogong.domain.product.repository.ProductRepository;
 import com.example.sogong.domain.product.domain.Product;
-import com.example.sogong.domain.product.dto.CreationProductReq;
-import com.example.sogong.domain.product.dto.GetProductRes;
+import com.example.sogong.domain.product.dto.request.ProductRequestDto;
+import com.example.sogong.domain.product.dto.response.ProductResponseDto;
+import com.example.sogong.domain.product.repository.ProductRepository;
+import com.example.sogong.global.common.response.code.ErrorCode;
+import com.example.sogong.global.common.response.exception.GlobalErrorException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
-@Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
+@Service
 public class ProductService {
     private final ProductRepository productRepository;
 
-    public void saveProduct(CreationProductReq request) {
-        productRepository.save(request.toEntity());
+    @Transactional
+    public ProductResponseDto createProduct(ProductRequestDto productRequestDto) {
+        return new ProductResponseDto(productRepository.save(Product.of(productRequestDto)));
     }
 
-    public List<GetProductRes> findAll() {
-        List<Product> productList = productRepository.findAll();
-        return productList.stream()
-                .map(GetProductRes::of)
+    public ProductResponseDto getProduct(Long productId) {
+        Product product = findOrThrow(productId);
+        return new ProductResponseDto(product);
+    }
+
+    public List<ProductResponseDto> getAllProduct(Pageable pageable) {
+        return productRepository.findAll(pageable).getContent()
+                .stream()
+                .map(ProductResponseDto::new)
                 .toList();
     }
 
-    public Optional<GetProductRes> findProductById(Long id) {
-        Optional<Product> product = productRepository.findById(id);
-        return product.map(GetProductRes::of);
+    @Transactional
+    public ProductResponseDto updateProduct(Long productId, ProductRequestDto productRequestDto) {
+        Product product = findOrThrow(productId);
+        product.update(productRequestDto);
+
+        return new ProductResponseDto(product);
     }
 
-    public void modifyProduct(Long id, CreationProductReq request) {
-        if (!productRepository.existsById(id))
-            throw new IllegalArgumentException("존재하지 않는 상품입니다.");
+    @Transactional
+    public void deleteProduct(Long productId) {
+        productRepository.deleteById(productId);
     }
 
-    public void removeProduct(Long id) {
-        productRepository.deleteById(id);
+
+    private Product findOrThrow(Long productId) {
+        return productRepository.findById(productId)
+                .orElseThrow(() -> new GlobalErrorException(ErrorCode.NOT_FOUND_ERROR));
     }
+
 }

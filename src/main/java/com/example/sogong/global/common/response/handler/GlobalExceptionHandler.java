@@ -2,14 +2,16 @@ package com.example.sogong.global.common.response.handler;
 
 import com.example.sogong.global.common.response.ErrorResponse;
 import com.example.sogong.global.common.response.FailureResponse;
+import com.example.sogong.global.common.response.code.AuthErrorCode;
 import com.example.sogong.global.common.response.code.ErrorCode;
 import com.example.sogong.global.common.response.exception.GlobalErrorException;
-import com.example.sogong.global.exception.auth.AuthErrorException;
+import com.example.sogong.global.common.response.exception.AuthErrorException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingRequestHeaderException;
@@ -26,6 +28,7 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 public class GlobalExceptionHandler {
     /**
      * API 호출 시 서버에서 발생시킨 전역 예외를 처리하는 메서드
+     *
      * @param e GlobalErrorException
      * @return ResponseEntity<ErrorResponse>
      */
@@ -38,14 +41,22 @@ public class GlobalExceptionHandler {
 
     /**
      * API 호출 시 인증 관련 예외를 처리하는 메서드
+     *
      * @param e AuthErrorException
      * @return ResponseEntity<ErrorResponse>
      */
     @ExceptionHandler(AuthErrorException.class)
     protected ResponseEntity<ErrorResponse> handleAuthErrorException(AuthErrorException e) {
         log.error("handleAuthErrorException : {}", e.getMessage());
-        final ErrorResponse response = ErrorResponse.of(e.getErrorCode().getDetail());
+        final ErrorResponse response = ErrorResponse.of(e.getErrorCode().getMessage());
         return ResponseEntity.status(e.getErrorCode().getHttpStatus()).body(response);
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    protected ResponseEntity<ErrorResponse> handleBadCredentialsException(BadCredentialsException e) {
+        log.error("handleBadCredentialsException : {}", e.getMessage());
+        final ErrorResponse response = ErrorResponse.of(AuthErrorCode.FAILED_AUTHENTICATION.getMessage());
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
     }
 
     @ExceptionHandler(AccessDeniedException.class)
@@ -55,8 +66,10 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
     }
 
+
     /**
      * API 호출 시 객체 혹은 파라미터 데이터 값이 유효하지 않은 경우
+     *
      * @param e MethodArgumentNotValidException
      * @return ResponseEntity<FailureResponse>
      */
@@ -70,6 +83,7 @@ public class GlobalExceptionHandler {
 
     /**
      * API 호출 시 'Header' 내에 데이터 값이 유효하지 않은 경우
+     *
      * @param e MissingRequestHeaderException
      * @return ResponseEntity<FailureResponse>
      */
@@ -82,6 +96,7 @@ public class GlobalExceptionHandler {
 
     /**
      * API 호출 시 'BODY' 내에 데이터 값이 존재하지 않은 경우
+     *
      * @param e HttpMessageNotReadableException
      * @return ResponseEntity<ErrorResponse>
      */
@@ -94,6 +109,7 @@ public class GlobalExceptionHandler {
 
     /**
      * API 호출 시 'Parameter' 내에 데이터 값이 존재하지 않은 경우
+     *
      * @param e MissingServletRequestParameterException
      * @return ResponseEntity<ErrorResponse>
      */
@@ -106,6 +122,7 @@ public class GlobalExceptionHandler {
 
     /**
      * 잘못된 URL 호출 시
+     *
      * @param e NoHandlerFoundException
      * @return ResponseEntity<ErrorResponse>
      */
@@ -118,6 +135,7 @@ public class GlobalExceptionHandler {
 
     /**
      * NullPointerException이 발생한 경우
+     *
      * @param e NullPointerException
      * @return ResponseEntity<ErrorResponse>
      */
@@ -132,6 +150,7 @@ public class GlobalExceptionHandler {
 
     /**
      * 기타 예외가 발생한 경우
+     *
      * @param e Exception
      * @return ResponseEntity<ErrorResponse>
      */

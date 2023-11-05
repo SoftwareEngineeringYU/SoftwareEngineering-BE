@@ -17,11 +17,12 @@ import org.springframework.util.ObjectUtils;
 @OpenAPIDefinition(
         servers = {
             @Server(url = "http://localhost:8080", description = "Local Server"),
+            //@Server(url = "${sogong.domain.backend}", description = "Production Server")
         }
 )
 @RequiredArgsConstructor
 public class SwaggerConfig {
-    private static final String JWT = "jwtAuth";
+    private static final String JWT = "jwt auth";
     private final Environment environment;
 
     @Bean

@@ -38,6 +38,8 @@ dependencies {
 	implementation 'javax.xml.bind:jaxb-api:2.4.0-b180830.0359' // DatatypeConverter
 	implementation group: 'me.paulschwarz', name: 'spring-dotenv', version: '4.0.0'
 
+	// swagger
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0'
 
 	// Test
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'

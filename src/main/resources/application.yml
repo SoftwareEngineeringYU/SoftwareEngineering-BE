@@ -29,3 +29,11 @@ app:
       expiration: ${JWT_EXPIRATION_ACCESS}
     refresh:
       expiration: ${JWT_EXPIRATION_REFRESH}
+
+  portone:
+    api-id: ${PORTONE_ID}
+    api-secret-key: ${PORTONE_SECRET_KEY}
+    id-code: ${PORTONE_ID_CODE}
+    cid: ${PORTONE_CID}
+
+  origin: ${ALLOWED_ORIGIN}

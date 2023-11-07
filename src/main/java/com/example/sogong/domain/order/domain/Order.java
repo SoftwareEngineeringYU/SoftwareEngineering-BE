@@ -43,13 +43,27 @@ public class Order extends BaseTimeEntity {
 
 
     @Builder
-    private Order(Instant purchasedAt, OrderStatus orderStatus, CsStatus csStatus, Address shippingAddress, Member buyer) {
+    protected Order(Instant purchasedAt, OrderStatus orderStatus, CsStatus csStatus, Address shippingAddress, Member buyer) {
         this.purchasedAt = purchasedAt;
         this.orderStatus = orderStatus;
         this.csStatus = csStatus;
         this.shippingAddress = shippingAddress;
         this.buyer = buyer;
         this.orderProducts = new ArrayList<>();
+    }
+
+    public void completePayment() {
+        this.orderStatus = OrderStatus.PREPARING;
+    }
+
+    public int getTotalPrice() {
+        return orderProducts.stream()
+                .mapToInt(product -> product.getPrice() * product.getQuantity())
+                .sum();
+    }
+
+    public String getOrderName() {
+        return orderProducts.get(0).getProduct().getName() + " 외 " + orderProducts.size();
     }
 
 }

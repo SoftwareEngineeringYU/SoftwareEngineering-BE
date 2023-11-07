@@ -4,14 +4,15 @@ import com.example.sogong.global.common.response.ErrorResponse;
 import com.example.sogong.global.common.response.FailureResponse;
 import com.example.sogong.global.common.response.code.AuthErrorCode;
 import com.example.sogong.global.common.response.code.ErrorCode;
-import com.example.sogong.global.common.response.exception.GlobalErrorException;
 import com.example.sogong.global.common.response.exception.AuthErrorException;
+import com.example.sogong.global.common.response.exception.GlobalErrorException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingRequestHeaderException;
@@ -55,6 +56,13 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(BadCredentialsException.class)
     protected ResponseEntity<ErrorResponse> handleBadCredentialsException(BadCredentialsException e) {
         log.error("handleBadCredentialsException : {}", e.getMessage());
+        final ErrorResponse response = ErrorResponse.of(AuthErrorCode.FAILED_AUTHENTICATION.getMessage());
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
+    }
+
+    @ExceptionHandler(AuthenticationException.class)
+    protected ResponseEntity<ErrorResponse> handleAuthenticationException(AuthenticationException e) {
+        log.error("handleAuthenticationException : {}", e.getMessage());
         final ErrorResponse response = ErrorResponse.of(AuthErrorCode.FAILED_AUTHENTICATION.getMessage());
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
     }

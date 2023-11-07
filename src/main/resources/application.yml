@@ -18,6 +18,12 @@ spring:
       url: jdbc:redis://${REDIS_USER}:${REDIS_PASSWORD}@${REDIS_HOST}:${PORT}
       password: ${REDIS_PASSWORD}
 
+
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+
 springdoc:
   default-consumes-media-type: application/json;charset=UTF-8
   default-produces-media-type: application/json;charset=UTF-8
@@ -31,10 +37,6 @@ springdoc:
       enabled: true
 
 
-  mvc:
-    pathmatch:
-      matching-strategy: ant_path_matcher
-
 
 app:
   token:
@@ -43,3 +45,11 @@ app:
       expiration: ${JWT_EXPIRATION_ACCESS}
     refresh:
       expiration: ${JWT_EXPIRATION_REFRESH}
+
+  portone:
+    api-id: ${PORTONE_ID}
+    api-secret-key: ${PORTONE_SECRET_KEY}
+    id-code: ${PORTONE_ID_CODE}
+    cid: ${PORTONE_CID}
+
+  origin: ${ALLOWED_ORIGIN}

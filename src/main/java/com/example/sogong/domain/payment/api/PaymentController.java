@@ -1,9 +1,10 @@
 package com.example.sogong.domain.payment.api;
 
-import com.example.sogong.domain.payment.dto.request.PaymentRequestDto;
+import com.example.sogong.domain.payment.dto.PortOnePaymentResult;
 import com.example.sogong.domain.payment.service.PaymentService;
+import com.example.sogong.global.common.response.SuccessResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,26 +14,27 @@ import org.springframework.web.bind.annotation.*;
 public class PaymentController {
     private final PaymentService paymentService;
 
-    // 지불 생성
-    @PostMapping
-    public ResponseEntity<?> createPayment(PaymentRequestDto paymentRequestDto) {
-        return new ResponseEntity<>(paymentService.createPayment(paymentRequestDto), HttpStatus.OK);
+    @PostMapping("/complete")
+    public ResponseEntity<?> handlePaymentComplete(
+            @RequestParam("order") Long orderId,
+            @Valid @RequestBody PortOnePaymentResult portOnePaymentResult
+    ) {
+        var data = paymentService.verify(orderId, portOnePaymentResult);
+        return ResponseEntity.ok(SuccessResponse.from(data));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getPayment(@PathVariable Long id) {
-        return new ResponseEntity<>(paymentService.getPayment(id), HttpStatus.OK);
+    @PostMapping("/error")
+    public ResponseEntity<?> handlePaymentError(
+            @Valid @RequestBody PortOnePaymentResult portOnePaymentResult
+    ) {
+        return ResponseEntity.unprocessableEntity().build();
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<?> updatePayment(
-            @PathVariable Long id,
-            @RequestBody PaymentRequestDto paymentRequestDto) {
-        return new ResponseEntity<>(paymentService.updatePayment(id, paymentRequestDto), HttpStatus.OK);
+
+    @GetMapping("/{paymentId}")
+    public ResponseEntity<?> getPayment(@PathVariable Long paymentId) {
+        var data = paymentService.getPayment(paymentId);
+        return ResponseEntity.ok(SuccessResponse.from(data));
     }
 
-    @DeleteMapping("{/id}")
-    public void deletePayment(@PathVariable Long id) {
-        paymentService.deletePayment(id);
-    }
 }

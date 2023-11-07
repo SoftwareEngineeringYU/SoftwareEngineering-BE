@@ -9,6 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Optional;
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/products")
@@ -46,7 +49,8 @@ public class ProductController {
 
     // 상품 삭제
     @DeleteMapping("/{id}")
-    public void deleteProduct(@PathVariable Long id) {
+    public ResponseEntity<?> productRemove(@PathVariable Long id) {
         productService.deleteProduct(id);
+        return ResponseEntity.status(HttpStatus.OK).body(SuccessResponse.noContent());
     }
 }

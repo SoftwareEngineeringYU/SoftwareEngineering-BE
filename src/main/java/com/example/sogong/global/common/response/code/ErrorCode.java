@@ -50,6 +50,7 @@ public enum ErrorCode implements StateCode {
      */
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error Exception"),
     SMS_SEND_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "SMS 전송에 실패하였습니다"),
+    PAYMENT_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "SMS 전송에 실패하였습니다"),
 
     INSERT_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "Insert Transaction Error Exception"),
     UPDATE_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "Update Transaction Error Exception"),

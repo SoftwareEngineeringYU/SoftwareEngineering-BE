@@ -33,8 +33,8 @@ class SecurityConfig {
 
     private final SecurityAdapterConfig securityAdapterConfig;
 
-    @Value("${app.origin:http://localhost:3000}")
-    private String allowedOrigin;
+    @Value("${app.allow-origins:http://localhost:3000}")
+    private List<String> corsOrigins;
 
     private static final String[] publicEndpoints = {
             // API
@@ -79,9 +79,10 @@ class SecurityConfig {
     @Bean
     CorsConfigurationSource corsConfigurationSource() { // Localhost 환경 cors
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of(allowedOrigin));
-        configuration.setAllowedMethods(List.of("GET", "POST", "OPTIONS", "PUT", "PATCH", "DELETE"));
+        configuration.setAllowedOrigins(corsOrigins);
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE"));
         configuration.setAllowedHeaders(List.of("*"));
+        configuration.setMaxAge(3600L); // Cache preflight
         configuration.setExposedHeaders(List.of(HttpHeaders.AUTHORIZATION, AuthConstants.REFRESH_TOKEN));
         configuration.setAllowCredentials(true);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

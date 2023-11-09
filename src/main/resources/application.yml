@@ -53,3 +53,7 @@ app:
     cid: ${PORTONE_CID}
 
   allow-origins: ${ALLOWED_ORIGIN}
+
+sogong:
+  domain:
+    backend: ${BACKEND_API}

@@ -52,4 +52,4 @@ app:
     id-code: ${PORTONE_ID_CODE}
     cid: ${PORTONE_CID}
 
-  origin: ${ALLOWED_ORIGIN}
+  allow-origins: ${ALLOWED_ORIGIN}

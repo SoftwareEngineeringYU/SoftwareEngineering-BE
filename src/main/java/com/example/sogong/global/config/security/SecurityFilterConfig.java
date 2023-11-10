@@ -10,6 +10,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.filter.ForwardedHeaderFilter;
 
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 @Configuration
@@ -30,6 +31,11 @@ class SecurityFilterConfig {
     @Bean
     public TokenBanCheckFilter tokenBanCheckFilter() {
         return new TokenBanCheckFilter(forbiddenTokenService, objectMapper);
+    }
+
+    @Bean
+    ForwardedHeaderFilter forwardedHeaderFilter() {
+        return new ForwardedHeaderFilter();
     }
 
 }

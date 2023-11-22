@@ -4,6 +4,7 @@ import com.example.sogong.global.auth.AuthConstants;
 import com.example.sogong.global.auth.entrypoint.AuthEntryPointJwt;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.security.reactive.PathRequest;
 import org.springframework.context.annotation.Bean;
@@ -27,6 +28,7 @@ import java.util.List;
 @EnableMethodSecurity
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 @Configuration
+@Slf4j
 class SecurityConfig {
 
     private final AuthEntryPointJwt unauthorizedHandler;

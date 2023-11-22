@@ -36,8 +36,6 @@ springdoc:
     groups:
       enabled: true
 
-
-
 app:
   token:
     access:

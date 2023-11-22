@@ -26,13 +26,14 @@ public class Cart extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private Product product;
 
-    private Cart(Member owner, Product product) {
+    private Cart(Member owner, Product product, Integer quantity) {
         this.owner = owner;
         this.product = product;
+        this.quantity = quantity;
     }
 
-    public static Cart of(Member owner, Product product) {
-        return new Cart(owner, product);
+    public static Cart of(Member owner, Product product, Integer quantity) {
+        return new Cart(owner, product, quantity);
     }
 
     public void plusQuantity() {

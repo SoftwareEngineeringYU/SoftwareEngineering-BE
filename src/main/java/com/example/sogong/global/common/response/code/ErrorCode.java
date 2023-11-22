@@ -32,7 +32,7 @@ public enum ErrorCode implements StateCode {
     INVALID_AUTH_CODE(BAD_REQUEST, "유효하지 않은 인증 코드입니다"),
     INVALID_RECEIVER(BAD_REQUEST, "유효하지 않은 수신자입니다"),
 
-
+    DUPLICATE_CART_ITEM(BAD_REQUEST, "이미 장바구니에 존재하는 상품입니다"),
 
     /**
      * 403 FORBIDDEN: 서버에서 요청을 거부한 경우

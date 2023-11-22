@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface CartRepository extends JpaRepository<Cart,Long> {
     List<Cart> findByOwnerId(Long userId);
+    boolean existsByOwnerIdAndProductId(Long userId, Long productId);
 }

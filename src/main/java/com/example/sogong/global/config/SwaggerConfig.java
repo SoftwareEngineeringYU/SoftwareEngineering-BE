@@ -17,7 +17,7 @@ import org.springframework.util.ObjectUtils;
 @OpenAPIDefinition(
         servers = {
             @Server(url = "http://localhost:8080", description = "Local Server"),
-            //@Server(url = "${sogong.domain.backend}", description = "Production Server")
+            @Server(url = "${sogong.domain.backend}", description = "Production Server")
         }
 )
 @RequiredArgsConstructor

@@ -1,5 +1,6 @@
 package com.example.sogong.domain.product.domain;
 
+import com.example.sogong.domain.cart.domain.Cart;
 import com.example.sogong.domain.category.domain.Category;
 import com.example.sogong.domain.common.BaseTimeEntity;
 import com.example.sogong.domain.image.domain.ImageData;
@@ -12,6 +13,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

@@ -1,15 +1,12 @@
 package com.example.sogong.domain.cart.domain;
 
-import com.example.sogong.domain.cart.dto.request.CartRequestDto;
-import com.example.sogong.domain.cart_product.domain.CartProduct;
-import com.example.sogong.domain.cart_product.dto.request.CartProductRequestDto;
 import com.example.sogong.domain.common.BaseTimeEntity;
 import com.example.sogong.domain.member.domain.Member;
+import com.example.sogong.domain.product.domain.Product;
 import jakarta.persistence.*;
-import lombok.*;
-
-import java.util.ArrayList;
-import java.util.List;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -19,27 +16,42 @@ public class Cart extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private Integer quantity;
+
     @JoinColumn(name = "OWNER_ID", nullable = false)
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Member owner;
 
-    @OneToMany(mappedBy = "cart", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<CartProduct> cartItems;
+    @JoinColumn(name = "PRODUCT_ID")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Product product;
 
-    @Builder
-    private Cart(Member owner) {
+    private Cart(Member owner, Product product) {
         this.owner = owner;
-        this.cartItems = new ArrayList<>();
+        this.product = product;
     }
 
-    public Cart(CartRequestDto cartRequestDto) {
-        this.owner = cartRequestDto.getOwner();
-        this.cartItems = cartRequestDto.getCartItems();
+    public static Cart of(Member owner, Product product) {
+        return new Cart(owner, product);
     }
 
-    public void update(CartRequestDto cartRequestDto) {
-        this.owner = cartRequestDto.getOwner();
-        this.cartItems = cartRequestDto.getCartItems();
+    public void plusQuantity() {
+        ++this.quantity;
     }
 
+    public void minusQuantity() {
+        --this.quantity;
+    }
+
+    public void updateOwner(Member owner) {
+        if (this.owner != null) {
+            owner.getCarts().remove(this);
+        }
+
+        this.owner = owner;
+
+        if (owner != null) {
+            owner.getCarts().add(this);
+        }
+    }
 }

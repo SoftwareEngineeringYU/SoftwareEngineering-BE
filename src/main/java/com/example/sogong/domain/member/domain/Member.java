@@ -1,5 +1,6 @@
 package com.example.sogong.domain.member.domain;
 
+import com.example.sogong.domain.cart.domain.Cart;
 import com.example.sogong.domain.common.BaseTimeEntity;
 import com.example.sogong.domain.member.dto.request.MemberRequestDto;
 import com.example.sogong.domain.order.domain.Order;
@@ -46,6 +47,9 @@ public class Member extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "buyer", fetch = FetchType.LAZY)
     private List<Order> orders;
+
+    @OneToMany(mappedBy = "owner")
+    private List<Cart> carts;
 
     @Builder
     protected Member(String password, String nickname, String email, Set<MemberRole> roles) {

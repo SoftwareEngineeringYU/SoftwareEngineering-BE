@@ -33,6 +33,10 @@ public class CartController {
     }
 
     @Operation(summary = "장바구니 상품 추가")
+    @Parameters({
+            @Parameter(name = "product_id", description = "상품 아이디"),
+            @Parameter(name = "quantity", description = "상품 수량", example = "1", required = false)
+    })
     @PostMapping("")
     public ResponseEntity<?> addCart(
             @AccessTokenInfo AccessToken token,
@@ -43,7 +47,7 @@ public class CartController {
     }
 
     @Operation(summary = "장바구니 상품 수량 변경")
-    @Parameter(name = "diff", description = "plus or minus")
+    @Parameter(name = "diff", description = "plus or minus", example = "plus")
     @GetMapping("/{cart_id}")
     public ResponseEntity<?> updateCart(@PathVariable("cart_id") Long cartId, @RequestParam("diff") String diff) {
         cartService.updateCart(cartId, diff);

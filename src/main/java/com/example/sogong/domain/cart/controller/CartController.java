@@ -1,27 +1,29 @@
 package com.example.sogong.domain.cart.controller;
 
+import com.example.sogong.domain.cart.domain.Cart;
 import com.example.sogong.domain.cart.dto.request.CartRequestDto;
+import com.example.sogong.domain.cart.dto.response.CartItemsRes;
 import com.example.sogong.domain.cart.service.CartService;
+import com.example.sogong.global.common.response.SuccessResponse;
+import com.example.sogong.global.resolver.access_token.AccessToken;
+import com.example.sogong.global.resolver.access_token.AccessTokenInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/v1/cart")
+@RequestMapping("/api/v1/carts")
 public class CartController {
     private final CartService cartService;
 
-    // 카트 생성
-    @PostMapping
-    public ResponseEntity<?> createCart(@RequestBody CartRequestDto cartRequestDto) {
-        return new ResponseEntity<>(cartService.createCart(cartRequestDto), HttpStatus.OK);
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getCart(@PathVariable Long id) {
-        return new ResponseEntity<>(cartService.getCart(id), HttpStatus.OK);
+    @GetMapping("")
+    public ResponseEntity<?> getCart(@AccessTokenInfo AccessToken token) {
+        CartItemsRes cart = cartService.findCartItems(token.subject());
+        return ResponseEntity.ok(SuccessResponse.from(cart));
     }
 
     // 카트 수정

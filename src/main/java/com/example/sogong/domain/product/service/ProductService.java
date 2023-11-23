@@ -40,7 +40,6 @@ public class ProductService {
     public ProductResponseDto updateProduct(Long productId, ProductRequestDto productRequestDto) {
         Product product = findOrThrow(productId);
         product.update(productRequestDto);
-
         return new ProductResponseDto(product);
     }
 
@@ -51,7 +50,7 @@ public class ProductService {
 
 
     private Product findOrThrow(Long productId) {
-        return productRepository.findById(productId)
+        return productRepository.findByIdWithImage(productId)
                 .orElseThrow(() -> new GlobalErrorException(ErrorCode.NOT_FOUND_ERROR));
     }
 

@@ -48,7 +48,7 @@ public class CartItemsRes {
             return CartItem.builder()
                     .productId(product.getId())
                     .productName(product.getName())
-                    .productImage(product.getImages().get(0).getThumbnailImageKey())
+                    .productImage(product.getImages().get(0).getImageUrl())
                     .productPrice(product.getPrice())
                     .quantity(quantity)
                     .subtotalPrice(product.getPrice() * quantity)

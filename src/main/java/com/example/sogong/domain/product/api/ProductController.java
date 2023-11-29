@@ -10,14 +10,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/products")
 public class ProductController {
     private final ProductService productService;
-//    private final ProductRecommendService productRecommendService;
+    private final ProductRecommendService productRecommendService;
 
     // 상품 생성
     @PostMapping
@@ -62,4 +60,18 @@ public class ProductController {
     }
 
 
+    @GetMapping("/recommendation")
+    public ResponseEntity<?> getRecommendations() {
+        return ResponseEntity.ok(SuccessResponse.from(productRecommendService.getRecommendProductsByHeuristic()));
+    }
+
+    @GetMapping("/recommendation/{memberId}")
+    public ResponseEntity<?> getRecommendationsByMemberId(@PathVariable Long memberId) {
+        return ResponseEntity.ok(SuccessResponse.from(productRecommendService.getRecommendProductsByCollaborative(memberId)));
+    }
+
+    @GetMapping("/recommendation/{productId}")
+    public ResponseEntity<?> getRecommendationsByProductId(@PathVariable Long productId) {
+        return ResponseEntity.ok(SuccessResponse.from(productRecommendService.getRecommendProductsByProductId(productId)));
+    }
 }

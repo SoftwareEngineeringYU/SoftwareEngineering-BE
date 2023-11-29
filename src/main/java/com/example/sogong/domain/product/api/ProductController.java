@@ -65,7 +65,7 @@ public class ProductController {
         return ResponseEntity.ok(SuccessResponse.from(productRecommendService.getRecommendProductsByHeuristic()));
     }
 
-    @GetMapping("/recommendation/{memberId}")
+    @GetMapping("/recommendation/member/{memberId}")
     public ResponseEntity<?> getRecommendationsByMemberId(@PathVariable Long memberId) {
         return ResponseEntity.ok(SuccessResponse.from(productRecommendService.getRecommendProductsByCollaborative(memberId)));
     }

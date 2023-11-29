@@ -1,6 +1,7 @@
 package com.example.sogong.domain.product.api;
 
 import com.example.sogong.domain.product.dto.request.ProductRequestDto;
+import com.example.sogong.domain.product.service.ProductRecommendService;
 import com.example.sogong.domain.product.service.ProductService;
 import com.example.sogong.global.common.response.SuccessResponse;
 import lombok.RequiredArgsConstructor;
@@ -10,13 +11,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/products")
 public class ProductController {
     private final ProductService productService;
+    private final ProductRecommendService productRecommendService;
 
     // 상품 생성
     @PostMapping
@@ -53,4 +54,12 @@ public class ProductController {
         productService.deleteProduct(id);
         return ResponseEntity.status(HttpStatus.OK).body(SuccessResponse.noContent());
     }
+
+    @GetMapping("/category/{categoryCode}")
+    public ResponseEntity<?> getProductsByCategoryCode(
+            @PathVariable String categoryCode, Pageable pageable) {
+        return ResponseEntity.ok(SuccessResponse.from(productService.getProductsByCategory(categoryCode, pageable)));
+    }
+
+
 }

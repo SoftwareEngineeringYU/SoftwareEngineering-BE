@@ -48,6 +48,13 @@ public class ProductService {
         productRepository.deleteById(productId);
     }
 
+    public List<ProductResponseDto> getProductsByCategory(String categoryCode, Pageable pageable) {
+        return productRepository.findAllByCategoryCode(categoryCode, pageable)
+                .stream()
+                .map(ProductResponseDto::new)
+                .toList();
+    }
+
 
     private Product findOrThrow(Long productId) {
         return productRepository.findByIdWithImage(productId)

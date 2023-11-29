@@ -17,7 +17,7 @@ import java.util.List;
 @RequestMapping("/api/v1/products")
 public class ProductController {
     private final ProductService productService;
-    private final ProductRecommendService productRecommendService;
+//    private final ProductRecommendService productRecommendService;
 
     // 상품 생성
     @PostMapping

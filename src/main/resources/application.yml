@@ -55,3 +55,4 @@ app:
 sogong:
   domain:
     backend: ${BACKEND_API}
+  recommend-api: ${RECOMMEND_API}

@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @Getter
 public class ProductResponseDto {
 
+    private long id;
     private String name;
     private Integer price;
     private String description;
@@ -16,6 +17,7 @@ public class ProductResponseDto {
     private String imageUrl;
 
     public ProductResponseDto(Product product) {
+        this.id = product.getId();
         this.name = product.getName();
         this.price = product.getPrice();
         this.description = product.getDescription();

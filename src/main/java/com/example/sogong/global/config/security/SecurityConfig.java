@@ -53,6 +53,7 @@ class SecurityConfig {
 
     private static final String[] publicReadOnlyPublicEndpoints = {
             "/api/v1/products/**",
+            "/api/v1/reviews/**",
     };
 
 

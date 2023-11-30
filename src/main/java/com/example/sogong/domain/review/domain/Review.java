@@ -9,7 +9,6 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -48,22 +47,12 @@ public class Review extends BaseTimeEntity {
     @OrderColumn
     private List<ImageData> images;
 
-    @Builder
-    private Review(String title, String body, Integer rating, Member writer, Product product, List<ImageData> images) {
-        this.title = title;
-        this.body = body;
-        this.rating = rating;
-        this.writer = writer;
-        this.product = product;
-        this.images = images;
-    }
-
-    public Review(ReviewRequestDto reviewRequestDto) {
+    public Review(ReviewRequestDto reviewRequestDto, Member writer, Product product) {
         this.title = reviewRequestDto.getTitle();
         this.body = reviewRequestDto.getBody();
         this.rating = reviewRequestDto.getRating();
-        this.writer = reviewRequestDto.getWriter();
-        this.product = reviewRequestDto.getProduct();
+        this.writer = writer;
+        this.product = product;
         this.images = reviewRequestDto.getImages();
     }
 
@@ -71,8 +60,6 @@ public class Review extends BaseTimeEntity {
         this.title = reviewRequestDto.getTitle();
         this.body = reviewRequestDto.getBody();
         this.rating = reviewRequestDto.getRating();
-        this.writer = reviewRequestDto.getWriter();
-        this.product = reviewRequestDto.getProduct();
         this.images = reviewRequestDto.getImages();
     }
 

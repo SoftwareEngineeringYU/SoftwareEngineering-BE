@@ -1,9 +1,11 @@
 # BE
+> 해당 API의 Swagger 문서는 [https://greencart.one/swagger](https://greencart.one/sapi/swagger-ui/index.html#/)에서 확인하실 수 있습니다.
+
 ### 프로젝트 환경
 - Java 17
 - SpringBoot 3.1.1
 - Gradle
-- MySql & Redis
+-  dMySql & Redis
 
 ### 실행 방법
 1. 프로젝트 받기

@@ -1,11 +1,25 @@
-## Branch Convention
+# BE
+### 프로젝트 환경
+- Java 17
+- SpringBoot 3.1.1
+- Gradle
+- MySql & Redis
 
-```
-main ── develop ── feature
-└── hotfix
-```
-  
-1. branch 딸 때, 구현할 기능 issue에 먼저 등록 
-2. `git checkout -b feat/이슈번호`로 브랜치 생성 후 작업
-3. 작업 끝나면 본인 브랜치에 `git push`하고 PR 작성. (작업 상황 공유를 위해 draft PR 주기적으로 작성 요망)
-4. 최소 2명에게 리뷰받고 승인 후 Merge하고 branch 삭제
+### 실행 방법
+1. 프로젝트 받기
+   - `git clone https://github.com/SoftwareEngineeringYU/SoftwareEngineering-BE.git` 혹은 첨부 파일 압축 해제
+   - intelliJ에서 `Build Gradle` 수행
+2. 환경 변수 주입
+
+1️⃣ Edit Configuration 클릭  
+![image](https://github.com/SoftwareEngineeringYU/SoftwareEngineering-BE/assets/96044622/8bc1464d-a1db-4849-a09a-087d09be08bb)
+
+2️⃣ Modify Option > Operating System > Environment variables 클릭  
+![image](https://github.com/SoftwareEngineeringYU/SoftwareEngineering-BE/assets/96044622/913e0b3a-575e-4952-b4a6-ac54a82e2990)
+
+3️⃣ 포털에 게시한 환경 변수 주입  
+![image](https://github.com/SoftwareEngineeringYU/SoftwareEngineering-BE/assets/96044622/61f0cef4-3c97-4364-95e7-176e31bc08c7)
+
+<br/>
+
+3. SogongApplication 실행

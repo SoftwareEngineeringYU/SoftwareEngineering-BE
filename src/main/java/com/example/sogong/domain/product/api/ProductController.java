@@ -30,6 +30,12 @@ public class ProductController {
         return ResponseEntity.ok(SuccessResponse.from(data));
     }
 
+    @GetMapping("/name")
+    public ResponseEntity<?> getProductByName(@RequestParam String name, Pageable pageable) {
+        final var data = productService.findProductsByName(name, pageable);
+        return ResponseEntity.ok(SuccessResponse.from(data));
+    }
+
     // 상품 반환
     @GetMapping("/{id}")
     public ResponseEntity<?> getProduct(@PathVariable Long id) {

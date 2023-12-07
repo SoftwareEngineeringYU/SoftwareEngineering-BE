@@ -36,6 +36,13 @@ public class ProductService {
                 .toList();
     }
 
+    public List<ProductResponseDto> findProductsByName(String name, Pageable pageable) {
+        return productRepository.findAllByName(name, pageable)
+                .stream()
+                .map(ProductResponseDto::new)
+                .toList();
+    }
+
     @Transactional
     public ProductResponseDto updateProduct(Long productId, ProductRequestDto productRequestDto) {
         Product product = findOrThrow(productId);
